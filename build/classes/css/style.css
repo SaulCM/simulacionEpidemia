@@ -1,0 +1,22 @@
+
+.comboBox:filled{
+    -fx-text-fill: #ffffff; 
+}
+.button{
+    -fx-background-color:  #051937;
+}
+.button:hover{
+    -fx-background-color: #A8EB12;
+}
+.button:pressed{
+    -fx-background-color: #A8EB12;
+}
+.comboBox{
+    -fx-background-color:  #051937;
+}
+.comboBox:hover{
+    -fx-background-color: #A8EB12;
+}
+.comboBox:pressed{
+    -fx-background-color: #A8EB12;
+}
