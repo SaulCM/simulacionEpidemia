@@ -35,22 +35,35 @@ public class InterfazPrincipalController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    private String region="nacional";
+    private String opcion="simulacion";
+    private String tipoCuarentena="sincuarentena";
+    
+    private int diasSimulacion;
     private double poblacionInicial;
-    private double probabilidadContagio=0.10;
+    private double probabilidadContagio=0.14;
     private double duracionEnfermedad=7;
-    private double tasaDiariaInteraccion=2.5;
+    private double tasaDiariaInteraccion=7;
     private double tasaRecuperacion=0.95;
     private double tasaLetalidad=0.05;
     private double contagiadosIniciales=10;
     private double medidasGobierno=0.0;
+    
+    private double circulacionPoblDias=0;
+    private double circulacionPoblHoras=0;
+    private double circulacionTransporteDias=0;
+    private double diasMercado=0;
             
+    private Boolean cBTransportePublicoRestriccionPlaca=false;
+    private Boolean cBTransportePublicoBioseguridad=false;
+    
     private double contagios=0;
     private double recuperaciones=0;
     private double fallecimientos=0;
 
 
     private double susceptibles;
-    private double infectados=10;
+    private double infectados=1;
     private double recuperados=0;
     private double fallecidos=0;
     
@@ -65,22 +78,22 @@ public class InterfazPrincipalController implements Initializable {
             123,132,139,157,183,194,210,264,268,275,300,330,354,397,441,465,493,520,564,598,609,672,703,807,866,950,1014,1053,1110,1167,
             1229,1470,1594,1681,1802,1886,2081,2266,2437,2556,2831,2964,3148,3372,3577,3826,4088,4263,4481,4919,5187,5579,5915,6263,6660,7136,7768,8387,8731,9592,9982,
             10531,10991,11638,12245,12728,13358,13643,13949,14644,15281,16165,16929,17642,18468,19073,19883,20685,21499,22476,23512,24388,25493,26389,27487,28503,29423,30676,31524,32125,33219,
-            34227,35528,36818,38071,39297,40509,41545));
+            34227,35528,36818,38071,39297,40509,41545,42984,44113,45565,47200,48187,49250,50867));
     private ArrayList<Integer> datosNalRealCasosActivos=new ArrayList<Integer>(Arrays.asList(2,3,3,10,10,11,11,12,12,17,19,20,27,28,32,39,61,74,81,93,101,108,
                 114,121,127,145,170,177,192,243,245,251,272,297,320,362,398,408,431,457,500,517,525,582,597,700,745,819,861,888,934,973,
                 1029,1240,1352,1425,1529,1597,1760,1923,2065,2166,2421,2523,2667,2864,2979,3188,3426,3586,3759,4167,4411,4774,5066,5384,5752,6185,6799,7356,7682,8393,8683,
                 9051,9317,9731,10172,10562,11002,11092,11315,11967,12508,13260,13939,14489,14735,15011,15472,16004,16482,17091,17686,18161,18816,19243,19816,20252,20753,21548,21993,22126,22756,
-                23262,23899,24732,25421,26196,27104,27617));
+                23262,23899,24732,25421,26196,27104,27617,28524,29121,29945,31113,31537,32090,33150));
     private ArrayList<Integer> datosNalRealRecuperados=new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                 1,2,2,2,2,3,3,3,4,4,4,6,6,7,14,26,31,31,31,47,47,50,63,63,75,81,100,110,117,132,
                 134,159,166,174,187,198,219,237,258,275,289,313,339,356,434,473,493,503,533,553,561,575,609,629,647,677,689,738,749,889,986,
                 137,1298,1507,1658,1739,1902,2086,2159,2190,2261,2372,2431,2768,3113,3430,3752,4002,4320,4670,5086,5454,5857,6300,6795,7338,7736,8158,8517,8928,9340,
-                9764,10358,10766,11272,11667,11929,12398));
+                9764,10358,10766,11272,11667,11929,12398,12883,13354,13918,14333,14843,15294,15819));
     private ArrayList<Integer> datosNalRealFallecidos=new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,7,
                 8,9,10,10,11,14,15,18,19,20,24,27,28,28,29,31,31,32,33,34,37,40,43,44,46,50,53,55,59,62,
                 66,71,76,82,86,91,102,106,114,117,121,128,142,152,164,165,169,174,189,199,215,230,240,250,261,274,280,293,300,310,313,
                 343,376,400,415,427,454,465,475,487,512,533,559,585,611,632,659,679,697,715,740,773,820,846,876,913,934,970,1014,1071,1123,
-                1201,1271,1320,1378,1434,1476,1530));
+                1201,1271,1320,1378,1434,1476,1530,1577,1638,1702,1754,1807,1866,1898));
     
     private double[][]datosCalculados;
     //private ArrayList<ArrayList<Double>> datosCalculados;
@@ -98,21 +111,9 @@ public class InterfazPrincipalController implements Initializable {
 
     @FXML
     private CheckBox CheckBoxSinCuarentena;
-        @FXML
-    private LineChart<?, ?> GraficaNacionalReal;
-            @FXML
-    private HBox VistaMapaDeRiesgo;
+
     @FXML
-    private HBox VistaNacional;
-        @FXML
     private AnchorPane VistaMapa;
-    @FXML
-    private VBox ResultadosRealesNacional;
-
-    @FXML
-    private StackPane GraficasRealesNacional;
-
-    
     
     
    /* @FXML
@@ -132,6 +133,8 @@ public class InterfazPrincipalController implements Initializable {
 */
     @FXML
     private LineChart<?, ?> grafica;
+    @FXML
+    private TextField DiasSimulacion;
 
     @FXML
     private TextField ResMaxNumContagios;
@@ -153,8 +156,29 @@ public class InterfazPrincipalController implements Initializable {
 
     @FXML
     private TextField TotalFallecidos;
+        @FXML
+    private VBox ResultadosSimulacion;
+    @FXML
+    private VBox Estadisticas;
+        @FXML
+    private VBox ParametrosSimulacion;
+            @FXML
+    private TextField CirculacionPoblDias;
+            @FXML
+    private TextField CirculacionPoblHoras;
+            @FXML
+    private TextField CirculacionTransporteDias;
+            @FXML
+    private TextField DiasMercado;
+            
+    @FXML
+    private CheckBox CBTransportePublicoRestriccionPlaca;
+    private CheckBox CBTransportePublicoBioseguridad;
+
+
     @FXML
     void Simular(MouseEvent event) {
+
         simulacion();
 
     }
@@ -166,17 +190,41 @@ public class InterfazPrincipalController implements Initializable {
         //tasaRecuperacion=Double.parseDouble(TasaRecuperacion.getText())/100;
         //tasaLetalidad=Double.parseDouble(TasaLetalidad.getText())/100;
         
-        System.out.println(probabilidadContagio);
+        /*System.out.println(probabilidadContagio);
         System.out.println(duracionEnfermedad);
         System.out.println(tasaDiariaInteraccion);
         System.out.println(tasaRecuperacion);
-        System.out.println(tasaLetalidad);
+        System.out.println(tasaLetalidad);*/
         
-        datosCalculados=new double[200][7];
+        
+        if (tipoCuarentena.equals("dinamica")) {
+        tasaDiariaInteraccion=4.0;
+        circulacionPoblDias=Double.parseDouble(CirculacionPoblDias.getText());
+        circulacionPoblHoras=Double.parseDouble(CirculacionPoblHoras.getText());
+        circulacionTransporteDias=Double.parseDouble(CirculacionTransporteDias.getText());
+        diasMercado=Double.parseDouble(DiasMercado.getText());
+
+                    if (cBTransportePublicoBioseguridad==true) {
+                tasaDiariaInteraccion-=0.02;
+            }
+            if (cBTransportePublicoRestriccionPlaca==true) {
+                tasaDiariaInteraccion-=0.02;
+            }
+        System.out.println(cBTransportePublicoBioseguridad);
+        
+        tasaDiariaInteraccion-=(1-(circulacionPoblDias/10));
+        tasaDiariaInteraccion-=(1-(circulacionPoblHoras/100));
+        tasaDiariaInteraccion-=(circulacionTransporteDias/100);
+        tasaDiariaInteraccion-=(diasMercado/100);
+
+        }
+        
+        diasSimulacion=Integer.parseInt(DiasSimulacion.getText());
+        datosCalculados=new double[diasSimulacion][7];
         susceptibles=poblacionInicial-infectados;
         
         for (int i = 0; i < datosCalculados.length; i++) {
-            contagios=infectados*tasaDiariaInteraccion*probabilidadContagio*susceptibles/(susceptibles+infectados+recuperados);
+            contagios=infectados*tasaDiariaInteraccion*(1-0.4)*probabilidadContagio*susceptibles/(susceptibles+infectados+recuperados);
             recuperaciones=infectados*tasaRecuperacion/duracionEnfermedad;
             fallecimientos=infectados*tasaLetalidad/12;
                 datosCalculados[i][0]=contagios;
@@ -208,6 +256,7 @@ public class InterfazPrincipalController implements Initializable {
         }
         graficar();
         mostrarResultados();
+        System.out.println("Tasa diaria interaccion: "+tasaDiariaInteraccion); /// TEST
     }
     public void graficar(){
         grafica.getData().clear();
@@ -228,16 +277,16 @@ public class InterfazPrincipalController implements Initializable {
             //rect.setVisible(false);
             //data.setNode(rect);
             // series1.getData().add(xychart,datosCalculados[i][3]));
-             series1.getData().add(new XYChart.Data(Double.toString(i+1),datosCalculados[i][3]));
-             series2.getData().add(new XYChart.Data(Double.toString(i+1),datosCalculados[i][4]));
-             series3.getData().add(new XYChart.Data(Double.toString(i+1),datosCalculados[i][5]));
-             series4.getData().add(new XYChart.Data(Double.toString(i+1),datosCalculados[i][6]));
+             series1.getData().add(new XYChart.Data(Integer.toString(i+1),datosCalculados[i][3]));
+             series2.getData().add(new XYChart.Data(Integer.toString(i+1),datosCalculados[i][4]));
+             series3.getData().add(new XYChart.Data(Integer.toString(i+1),datosCalculados[i][5]));
+             series4.getData().add(new XYChart.Data(Integer.toString(i+1),datosCalculados[i][6]));
         }
          //series1.getData().add(new XYChart.Data("",2));
          grafica.setCreateSymbols(false);
         // grafica.getYAxis().setTickLabelsVisible(false);
          //grafica.getYAxis().setOpacity(0);
-         grafica.getData().addAll(series1,series2,series3,series4);
+         grafica.getData().addAll(series2,series3,series4);
          //grafica.getData().addAll(series1,series2,series3,series4);
         limpiarDatos();
     }
@@ -282,7 +331,11 @@ public class InterfazPrincipalController implements Initializable {
                 
         
     }
+    public void clearData(){
+        grafica.getData().clear();
+    }
     public void limpiarDatos(){
+    
     contagios=0;
     recuperaciones=0;
     fallecimientos=0;
@@ -300,12 +353,13 @@ public class InterfazPrincipalController implements Initializable {
 
     }
     public void graficarDatosNacionalesReales(){
+        clearData();
                  XYChart.Series series1=new XYChart.Series();
          XYChart.Series series2=new XYChart.Series();
          XYChart.Series series3=new XYChart.Series();
          XYChart.Series series4=new XYChart.Series();
          
-         series1.setName("Casos totales");
+         series1.setName("Casos Totales Infectados");
          series2.setName("Casos activos");
          series3.setName("Recuperadoss");
          series4.setName("Fallecidos");
@@ -325,34 +379,17 @@ public class InterfazPrincipalController implements Initializable {
              
         }
          //series1.getData().add(new XYChart.Data("",2));
-         GraficaNacionalReal.setCreateSymbols(false);
+         grafica.setCreateSymbols(false);
         // grafica.getYAxis().setTickLabelsVisible(false);
          //grafica.getYAxis().setOpacity(0);
-         GraficaNacionalReal.getData().addAll(series1,series2,series3);
-    }
-        @FXML
-    void SelectedMapaDeRiesgo(MouseEvent event) {
-        this.VistaMapaDeRiesgo.setVisible(true);
-        this.VistaNacional.setVisible(false);
-        this.GraficasRealesNacional.setVisible(true);
-        this.ResultadosRealesNacional.setVisible(true);
-        this.GraficaNacionalReal.setVisible(true);
-        
+         grafica.getData().addAll(series1,series3,series4);
     }
 
-    @FXML
-    void SelectedNacional(MouseEvent event) {
-        this.VistaMapaDeRiesgo.setVisible(false);
-        this.VistaNacional.setVisible(true);
-        this.GraficasRealesNacional.setVisible(false);
-        this.ResultadosRealesNacional.setVisible(false);
-        this.GraficaNacionalReal.setVisible(false);
-        this.VistaMapa.setVisible(false);
-    }
+
         @FXML
     void ButtonGraficaNacionalReal(MouseEvent event) {
-        this.GraficaNacionalReal.setVisible(true);
-        this.GraficaNacionalReal.toFront();
+        this.grafica.setVisible(true);
+        this.grafica.toFront();
         this.VistaMapa.setVisible(false);
     }
 
@@ -360,23 +397,24 @@ public class InterfazPrincipalController implements Initializable {
     void ButtonMapaNacionalReal(MouseEvent event) {
         this.VistaMapa.toFront();
         this.VistaMapa.setVisible(true);
-                this.GraficaNacionalReal.setVisible(false);
+                this.grafica.setVisible(false);
     }
     @FXML
     void CheckCuarentenaDinamica(MouseEvent event) {
         if (CheckBoxCuarentenaD.isSelected()) {
-            CheckBoxCuarentenaD.setSelected(true);
         CheckBoxCuarentenaR.setSelected(false);
         CheckBoxSinCuarentena.setSelected(false);
-        tasaDiariaInteraccion=4;
+                tipoCuarentena="dinamica";
+                tasaDiariaInteraccion=4;
+        
         }
     }
     @FXML
     void CheckCuarentenaRigida(MouseEvent event) {
         if (CheckBoxCuarentenaR.isSelected()) {
             CheckBoxCuarentenaD.setSelected(false);
-        CheckBoxCuarentenaR.setSelected(true);
         CheckBoxSinCuarentena.setSelected(false);
+        tipoCuarentena="rigida";
         tasaDiariaInteraccion=2.5;
         }
     }
@@ -385,14 +423,106 @@ public class InterfazPrincipalController implements Initializable {
         if (CheckBoxSinCuarentena.isSelected()) {
             CheckBoxCuarentenaD.setSelected(false);
         CheckBoxCuarentenaR.setSelected(false);
-        CheckBoxSinCuarentena.setSelected(true);
-        tasaDiariaInteraccion=7;
+                tipoCuarentena="sincuarentena";
+                tasaDiariaInteraccion=7;
         }
     }
+        @FXML
+    void SelectedEstadisticas(MouseEvent event) {
+         limpiarDatos();
+        graficarDatosNacionalesReales();
+        this.opcion="estadisticas";
+        this.ParametrosSimulacion.setVisible(false);
+        this.VistaMapa.setVisible(false);
+        this.grafica.setVisible(true);
+        this.Estadisticas.setVisible(true);
+        this.ResultadosSimulacion.setVisible(false);
+    }
+        @FXML
+    void SelectedSimulacion(MouseEvent event) {
+            simulacion();
+            graficar();
+        this.opcion="simulacion";
+        this.ParametrosSimulacion.setVisible(true);
+        this.VistaMapa.setVisible(false);
+        this.grafica.setVisible(true);
+        this.Estadisticas.setVisible(false);
+        this.ResultadosSimulacion.setVisible(true);
+        
+    }
+            @FXML
+    void SelectedMapaDeRiesgo(MouseEvent event) {
+        this.opcion="mapaderiesgo";
+        this.ParametrosSimulacion.setVisible(false);
+        this.VistaMapa.setVisible(true);
+        this.grafica.setVisible(false);
+        this.Estadisticas.setVisible(false);
+        this.ResultadosSimulacion.setVisible(false);
+        
+    }
+       @FXML
+    void TransporteBioseguridadClicked(MouseEvent event) {
+            this.cBTransportePublicoBioseguridad=true;
+    }
+ 
+    @FXML
+    void RestriccionPlacaClicked(MouseEvent event) {
+            this.cBTransportePublicoRestriccionPlaca=true;
+    }
+        @FXML
+    void SelectedNacional(MouseEvent event) {
+        this.Estadisticas.setVisible(false);
+        this.grafica.setVisible(true);
+        this.VistaMapa.setVisible(false);
+    }
+        @FXML
+    void SelectedBeni(MouseEvent event) {
+        this.region="beni";
+    }
+
+    @FXML
+    void SelectedChuquisaca(MouseEvent event) {
+        this.region="chuquisaca";
+    }
+
+    @FXML
+    void SelectedCochabamba(MouseEvent event) {
+        this.region="cochabamba";
+    }   
+
+    @FXML
+    void SelectedLaPaz(MouseEvent event) {
+        this.region="lapaz";
+    }
+    @FXML
+    void SelectedOruro(MouseEvent event) {
+        this.region="oruro";
+    }
+
+    @FXML
+    void SelectedPando(MouseEvent event) {
+        this.region="pando";
+    }
+
+    @FXML
+    void SelectedPotosi(MouseEvent event) {
+        this.region="potosi";
+    }
+
+    @FXML
+    void SelectedSantaCruz(MouseEvent event) {
+        this.region="santacruz";
+    }
+
+    @FXML
+    void SelectedTarija(MouseEvent event) {
+        this.region="tarija";
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        graficarDatosNacionalesReales();
-
+        //graficarDatosNacionalesReales();
+        CheckBoxSinCuarentena.setSelected(true);
     }
     
 }

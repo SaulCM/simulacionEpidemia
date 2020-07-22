@@ -19,156 +19,200 @@
 
 <AnchorPane id="AnchorPane" prefHeight="850.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="simulaciónepidemiológica.InterfazPrincipalController">
    <children>
-      <Label prefHeight="30.0" prefWidth="1300.0" text="SIMULACIÓN EPIDEMIOLÓGICA" textFill="#868282">
-         <padding>
-            <Insets left="530.0" top="10.0" />
-         </padding>
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <HBox layoutX="-1.0" layoutY="69.0" prefHeight="33.0" prefWidth="1300.0" style="-fx-background-color: #051937;">
+      <VBox layoutX="-1.0">
          <children>
-            <Button mnemonicParsing="false" onMouseClicked="#SelectedNacional" stylesheets="@../css/style.css" text="Nacional" textFill="WHITE" />
-            <Button mnemonicParsing="false" onMouseClicked="#SelectedMapaDeRiesgo" stylesheets="@../css/style.css" text="Mapa de riesgo" textFill="WHITE" />
-            <Button mnemonicParsing="false" stylesheets="@../css/style.css" text="Cochabamba" textFill="WHITE" />
-            <Button mnemonicParsing="false" stylesheets="@../css/style.css" text="La Paz" textFill="WHITE" />
-            <Button mnemonicParsing="false" stylesheets="@../css/style.css" text="Santa Cruz" textFill="WHITE" />
-            <Button mnemonicParsing="false" stylesheets="@../css/style.css" text="Chuquisaca" textFill="WHITE" />
-            <Button mnemonicParsing="false" stylesheets="@../css/style.css" text="Beni" textFill="WHITE" />
-            <Button mnemonicParsing="false" stylesheets="@../css/style.css" text="Tarija" textFill="WHITE" />
-            <Button mnemonicParsing="false" stylesheets="@../css/style.css" text="Potosí" textFill="WHITE" />
-            <Button mnemonicParsing="false" stylesheets="@../css/style.css" text="Oruro" textFill="WHITE" />
-            <Button mnemonicParsing="false" stylesheets="@../css/style.css" text="Pando" textFill="WHITE" />
-         </children></HBox>
-      <StackPane layoutX="-1.0" layoutY="100.0">
-         <children>
-            <HBox fx:id="VistaNacional" prefHeight="750.0" prefWidth="1300.0">
+            <Label prefHeight="30.0" prefWidth="1300.0" text="SIMULACIÓN EPIDEMIOLÓGICA" textFill="#868282">
+               <padding>
+                  <Insets left="530.0" top="10.0" />
+               </padding>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="33.0" prefWidth="1300.0" style="-fx-background-color: #051937;">
                <children>
-                  <VBox prefHeight="750.0" prefWidth="281.0">
-                     <children>
-                        <Label text="Población Inicial" />
-                        <TextField fx:id="PoblacionInicial" promptText="Población Inicial" text="11633371" />
-                        <CheckBox fx:id="CheckBoxCuarentenaR" mnemonicParsing="false" onMouseClicked="#CheckCuarentenaRigida" text="Cuarentena rígida" />
-                        <CheckBox fx:id="CheckBoxCuarentenaD" mnemonicParsing="false" onMouseClicked="#CheckCuarentenaDinamica" text="Cuarentena dinámica" />
-                        <CheckBox fx:id="CheckBoxSinCuarentena" mnemonicParsing="false" onMouseClicked="#CheckSinCuarentena" text="Sin cuarentena" />
-                        <Button mnemonicParsing="false" onMouseClicked="#Simular" prefHeight="31.0" prefWidth="95.0" text="Simular">
-                           <VBox.margin>
-                              <Insets left="150.0" />
-                           </VBox.margin>
-                        </Button>
-                     </children>
-                     <padding>
-                        <Insets left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </VBox>
-                  <VBox prefHeight="750.0" prefWidth="681.0">
-                     <children>
-                        <LineChart fx:id="grafica" prefHeight="750.0" prefWidth="710.0">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </LineChart>
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="750.0" prefWidth="375.0">
-                     <children>
-                        <Label prefHeight="21.0" prefWidth="311.0" text="Mayor número de contagios en un día" />
-                        <TextField fx:id="ResMaxNumContagios" editable="false" prefHeight="25.0" prefWidth="324.0" />
-                        <Label prefHeight="23.0" prefWidth="318.0" text="Mayor cantidad de infectados en un día" />
-                        <TextField fx:id="ResMaxNumInfectados" editable="false" />
-                        <Label prefHeight="23.0" prefWidth="308.0" text="Mayor cantidad de recuperaciones en un día" />
-                        <TextField fx:id="ResMaxNumRecuperados" editable="false" />
-                        <Label prefHeight="18.0" prefWidth="324.0" text="Mayor cantidad de fallecidos en un día" />
-                        <TextField fx:id="ResMaxNumFallecidos" editable="false" />
-                        <Label prefHeight="17.0" prefWidth="322.0" text="Total Infectados" />
-                        <TextField fx:id="TotalInfectados" />
-                        <Label prefHeight="21.0" prefWidth="315.0" text="Total Recuperados" />
-                        <TextField fx:id="TotalRecuperados" />
-                        <Label prefHeight="12.0" prefWidth="308.0" text="Total Fallecidos" />
-                        <TextField fx:id="TotalFallecidos" />
-                        <Label prefHeight="6.0" prefWidth="310.0" />
-                     </children>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                     <padding>
-                        <Insets left="10.0" right="10.0" />
-                     </padding>
-                  </VBox>
+                  <Button mnemonicParsing="false" onMouseClicked="#SelectedNacional" stylesheets="@../css/style.css" text="Nacional" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onMouseClicked="#SelectedCochabamba" stylesheets="@../css/style.css" text="Cochabamba" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onMouseClicked="#SelectedLaPaz" stylesheets="@../css/style.css" text="La Paz" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onMouseClicked="#SelectedSantaCruz" stylesheets="@../css/style.css" text="Santa Cruz" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onMouseClicked="#SelectedChuquisaca" stylesheets="@../css/style.css" text="Chuquisaca" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onMouseClicked="#SelectedBeni" stylesheets="@../css/style.css" text="Beni" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onMouseClicked="#SelectedTarija" stylesheets="@../css/style.css" text="Tarija" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onMouseClicked="#SelectedPotosi" stylesheets="@../css/style.css" text="Potosí" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onMouseClicked="#SelectedOruro" stylesheets="@../css/style.css" text="Oruro" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onMouseClicked="#SelectedPando" stylesheets="@../css/style.css" text="Pando" textFill="WHITE" />
                </children>
             </HBox>
-            <HBox fx:id="VistaMapaDeRiesgo" prefHeight="100.0" prefWidth="200.0" visible="false">
+            <HBox prefHeight="36.0" prefWidth="1300.0" style="-fx-background-color: #808080;">
                <children>
-                  <StackPane fx:id="GraficasRealesNacional" visible="false">
+                  <Button mnemonicParsing="false" onMouseClicked="#SelectedSimulacion" stylesheets="@../css/style2.css" text="Simulación" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onMouseClicked="#SelectedEstadisticas" stylesheets="@../css/style2.css" text="Estadísticas" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onMouseClicked="#SelectedMapaDeRiesgo" stylesheets="@../css/style2.css" text="Mapa de Riesgo" textFill="WHITE" />
+               </children>
+            </HBox>
+            <StackPane>
+               <children>
+                  <HBox fx:id="VistaNacional" prefHeight="750.0" prefWidth="1300.0">
                      <children>
-                        <AnchorPane fx:id="VistaMapa" prefHeight="750.0" prefWidth="892.0" visible="false">
+                        <VBox fx:id="ParametrosSimulacion" prefHeight="750.0" prefWidth="319.0">
                            <children>
-                              <ImageView fitHeight="741.0" fitWidth="744.0" layoutX="148.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../Imagenes/Bolivia.png" />
-                                 </image>
-                              </ImageView>
-                              <Label layoutX="109.0" layoutY="40.0" style="-fx-background-color: #36D0DB;" text="PANDO" textFill="WHITE" />
-                              <Label layoutX="560.0" layoutY="72.0" style="-fx-background-color: #36D0DB;" text="BENI" textFill="WHITE" />
-                              <Label layoutX="731.0" layoutY="180.0" style="-fx-background-color: #36D0DB;" text="SANTA CRUZ" textFill="WHITE" />
-                              <Label layoutX="83.0" layoutY="190.0" style="-fx-background-color: #36D0DB;" text="LA PAZ" textFill="WHITE" />
-                              <Label layoutX="91.0" layoutY="459.0" style="-fx-background-color: #36D0DB;" text="ORURO" textFill="WHITE" />
-                              <Label layoutX="599.0" layoutY="560.0" style="-fx-background-color: #36D0DB;" text="CHUQUISACA" textFill="WHITE" />
-                              <Label layoutX="576.0" layoutY="633.0" style="-fx-background-color: #36D0DB;" text="TARIJA" textFill="WHITE" />
-                              <Label layoutX="144.0" layoutY="612.0" style="-fx-background-color: #36D0DB;" text="POTOSI" textFill="WHITE" />
-                              <Label layoutX="50.0" layoutY="335.0" style="-fx-background-color: #36D0DB;" text="COCHABAMBA" textFill="WHITE" />
-                              <Line endX="-131.0" endY="-97.0" layoutX="684.0" layoutY="189.0" startX="-303.0" startY="55.0" />
-                              <Line endX="100.0" endY="-106.0" layoutX="622.0" layoutY="303.0" startX="-93.0" startY="151.0" />
-                              <Line endX="4.0" endY="5.0" layoutX="262.0" layoutY="125.0" startX="-89.0" startY="-60.0" />
-                              <Line endX="29.0" endY="-30.0" layoutX="227.0" layoutY="318.0" startX="-89.0" startY="-110.0" />
-                              <Line endX="-215.0" endY="-65.0" layoutX="374.0" layoutY="419.0" startY="8.0" />
-                              <Line endX="19.0" endY="7.0" layoutX="258.0" layoutY="501.0" startX="-109.99996948242188" startY="-31.0" />
-                              <Line endX="50.0" endY="-19.0" layoutX="296.0" layoutY="595.0" startX="-91.0" startY="24.0" />
-                              <Line endX="72.0" endY="-10.0" layoutX="521.0" layoutY="581.0" startX="-83.0" startY="6.0" />
-                              <Line endX="40.0" endY="-20.0" layoutX="527.0" layoutY="666.0" startX="-40.0" startY="-20.0" />
-                              <Label layoutX="91.0" layoutY="72.0" prefHeight="21.0" prefWidth="93.0" text="1,026 Casos" />
-                              <Label layoutX="66.0" layoutY="211.0" prefHeight="21.0" prefWidth="101.0" text="4,876 Casos" />
-                              <Label layoutX="69.0" layoutY="489.0" prefHeight="21.0" prefWidth="95.0" text="1,380 Casos" />
-                              <Label layoutX="57.0" layoutY="365.0" prefHeight="21.0" prefWidth="101.0" text="4,492 Casos" />
-                              <Label layoutX="133.0" layoutY="644.0" prefHeight="21.0" prefWidth="78.0" text="801 Casos" />
-                              <Label layoutX="559.0" layoutY="98.0" text="4,436 Casos" />
-                              <Label layoutX="732.0" layoutY="211.0" text="22,398 Casos" />
-                              <Label layoutX="599.0" layoutY="587.0" prefHeight="21.0" prefWidth="93.0" text="1,068 Casos" />
-                              <Label layoutX="555.0" layoutY="665.0" prefHeight="21.0" prefWidth="88.0" text="1,069 Casos" />
+                              <Label text="Dias" />
+                              <TextField fx:id="DiasSimulacion" text="200" />
+                              <Label text="Población Inicial" />
+                              <TextField fx:id="PoblacionInicial" promptText="Población Inicial" text="11633371" />
+                              <CheckBox fx:id="CheckBoxCuarentenaR" mnemonicParsing="false" onMouseClicked="#CheckCuarentenaRigida" text="Cuarentena rígida" />
+                              <CheckBox fx:id="CheckBoxCuarentenaD" mnemonicParsing="false" onMouseClicked="#CheckCuarentenaDinamica" text="Cuarentena dinámica" />
+                              <Label text="Circulación Población">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <TextField fx:id="CirculacionPoblDias" promptText="Días/semana ">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <TextField fx:id="CirculacionPoblHoras" promptText="Horas/día">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label text="Transporte público">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <CheckBox fx:id="CBTransportePublicoRestriccionPlaca" mnemonicParsing="false" onMouseClicked="#RestriccionPlacaClicked" text="Restricción placa">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <CheckBox fx:id="CBTransportePublicoBioseguridad" mnemonicParsing="false" onMouseClicked="#TransporteBioseguridadClicked" text="Bioseguridad">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <TextField fx:id="CirculacionTransporteDias" promptText="N° días/semana">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label text="Mercados">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <TextField fx:id="DiasMercado" promptText="N° días/semana">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <CheckBox fx:id="CheckBoxSinCuarentena" mnemonicParsing="false" onMouseClicked="#CheckSinCuarentena" text="Sin cuarentena" />
+                              <Button mnemonicParsing="false" onMouseClicked="#Simular" prefHeight="31.0" prefWidth="93.0" text="Simular">
+                                 <VBox.margin>
+                                    <Insets left="100.0" />
+                                 </VBox.margin>
+                              </Button>
                            </children>
-                        </AnchorPane>
-                        <LineChart fx:id="GraficaNacionalReal">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </LineChart>
+                           <padding>
+                              <Insets left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <StackPane>
+                           <children>
+                              <LineChart fx:id="grafica" prefHeight="750.0" prefWidth="477.0">
+                                <xAxis>
+                                  <CategoryAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis side="LEFT" />
+                                </yAxis>
+                              </LineChart>
+                              <AnchorPane fx:id="VistaMapa" prefHeight="750.0" prefWidth="892.0" visible="false">
+                                 <children>
+                                    <ImageView fitHeight="741.0" fitWidth="744.0" layoutX="148.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Bolivia.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="109.0" layoutY="40.0" style="-fx-background-color: #36D0DB;" text="PANDO" textFill="WHITE" />
+                                    <Label layoutX="560.0" layoutY="72.0" style="-fx-background-color: #36D0DB;" text="BENI" textFill="WHITE" />
+                                    <Label layoutX="731.0" layoutY="180.0" style="-fx-background-color: #36D0DB;" text="SANTA CRUZ" textFill="WHITE" />
+                                    <Label layoutX="83.0" layoutY="190.0" style="-fx-background-color: #36D0DB;" text="LA PAZ" textFill="WHITE" />
+                                    <Label layoutX="91.0" layoutY="459.0" style="-fx-background-color: #36D0DB;" text="ORURO" textFill="WHITE" />
+                                    <Label layoutX="599.0" layoutY="560.0" style="-fx-background-color: #36D0DB;" text="CHUQUISACA" textFill="WHITE" />
+                                    <Label layoutX="576.0" layoutY="633.0" style="-fx-background-color: #36D0DB;" text="TARIJA" textFill="WHITE" />
+                                    <Label layoutX="144.0" layoutY="612.0" style="-fx-background-color: #36D0DB;" text="POTOSI" textFill="WHITE" />
+                                    <Label layoutX="50.0" layoutY="335.0" style="-fx-background-color: #36D0DB;" text="COCHABAMBA" textFill="WHITE" />
+                                    <Line endX="-131.0" endY="-97.0" layoutX="684.0" layoutY="189.0" startX="-303.0" startY="55.0" />
+                                    <Line endX="100.0" endY="-106.0" layoutX="622.0" layoutY="303.0" startX="-93.0" startY="151.0" />
+                                    <Line endX="4.0" endY="5.0" layoutX="262.0" layoutY="125.0" startX="-89.0" startY="-60.0" />
+                                    <Line endX="29.0" endY="-30.0" layoutX="227.0" layoutY="318.0" startX="-89.0" startY="-110.0" />
+                                    <Line endX="-215.0" endY="-65.0" layoutX="374.0" layoutY="419.0" startY="8.0" />
+                                    <Line endX="19.0" endY="7.0" layoutX="258.0" layoutY="501.0" startX="-109.99996948242188" startY="-31.0" />
+                                    <Line endX="50.0" endY="-19.0" layoutX="296.0" layoutY="595.0" startX="-91.0" startY="24.0" />
+                                    <Line endX="72.0" endY="-10.0" layoutX="521.0" layoutY="581.0" startX="-83.0" startY="6.0" />
+                                    <Line endX="40.0" endY="-20.0" layoutX="527.0" layoutY="666.0" startX="-40.0" startY="-20.0" />
+                                    <Label layoutX="91.0" layoutY="72.0" prefHeight="21.0" prefWidth="93.0" text="1,045 Casos" />
+                                    <Label layoutX="66.0" layoutY="211.0" prefHeight="21.0" prefWidth="101.0" text="7.402 Casos" />
+                                    <Label layoutX="69.0" layoutY="489.0" prefHeight="21.0" prefWidth="95.0" text="1.921 Casos" />
+                                    <Label layoutX="57.0" layoutY="365.0" prefHeight="21.0" prefWidth="101.0" text="5.468 Casos" />
+                                    <Label layoutX="133.0" layoutY="644.0" prefHeight="21.0" prefWidth="78.0" text="969 Casos" />
+                                    <Label layoutX="559.0" layoutY="98.0" text="4.904 Casos" />
+                                    <Label layoutX="732.0" layoutY="211.0" text="26.124 Casos" />
+                                    <Label layoutX="599.0" layoutY="587.0" prefHeight="21.0" prefWidth="93.0" text="1.374 Casos" />
+                                    <Label layoutX="555.0" layoutY="665.0" prefHeight="21.0" prefWidth="88.0" text="1,660 Casos" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </StackPane>
+                        <StackPane>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <children>
+                              <VBox fx:id="ResultadosSimulacion" prefHeight="750.0" prefWidth="375.0">
+                                 <children>
+                                    <Label prefHeight="21.0" prefWidth="311.0" text="Mayor número de contagios en un día" />
+                                    <TextField fx:id="ResMaxNumContagios" editable="false" prefHeight="25.0" prefWidth="324.0" />
+                                    <Label prefHeight="23.0" prefWidth="318.0" text="Mayor cantidad de infectados en un día" />
+                                    <TextField fx:id="ResMaxNumInfectados" editable="false" />
+                                    <Label prefHeight="23.0" prefWidth="308.0" text="Mayor cantidad de recuperaciones en un día" />
+                                    <TextField fx:id="ResMaxNumRecuperados" editable="false" />
+                                    <Label prefHeight="18.0" prefWidth="324.0" text="Mayor cantidad de fallecidos en un día" />
+                                    <TextField fx:id="ResMaxNumFallecidos" editable="false" />
+                                    <Label prefHeight="17.0" prefWidth="322.0" text="Total Infectados" />
+                                    <TextField fx:id="TotalInfectados" />
+                                    <Label prefHeight="21.0" prefWidth="315.0" text="Total Recuperados" />
+                                    <TextField fx:id="TotalRecuperados" />
+                                    <Label prefHeight="12.0" prefWidth="308.0" text="Total Fallecidos" />
+                                    <TextField fx:id="TotalFallecidos" />
+                                    <Label prefHeight="6.0" prefWidth="310.0" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="10.0" right="10.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox fx:id="Estadisticas" prefHeight="750.0" prefWidth="420.0" visible="false">
+                                 <children>
+                                    <Label text="Casos Totales Actual" />
+                                    <TextField promptText="50.867" />
+                                    <Label prefHeight="21.0" prefWidth="101.0" text="Casos Activos Actual" />
+                                    <TextField promptText="33.150" />
+                                    <Label text="Pacientes Recuperados Actual" />
+                                    <TextField promptText="15.819" />
+                                    <Label text="Número de Decesos Actual" />
+                                    <TextField promptText="1898" />
+                                    <Label prefHeight="524.0" prefWidth="402.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </StackPane>
                      </children>
-                  </StackPane>
-                  <VBox fx:id="ResultadosRealesNacional" prefHeight="750.0" prefWidth="420.0" visible="false">
-                     <children>
-                        <Label text="Casos Totales Actual" />
-                        <TextField promptText="41.045" />
-                        <Label prefHeight="21.0" prefWidth="101.0" text="Casos Activos Actual" />
-                        <TextField promptText="27617" />
-                        <Label text="Pacientes Recuperados Actual" />
-                        <TextField promptText="12.398" />
-                        <Label text="Número de Decesos Actual" />
-                        <TextField promptText="1.530" />
-                        <Label prefHeight="524.0" prefWidth="402.0" />
-                        <Button mnemonicParsing="false" onMouseClicked="#ButtonGraficaNacionalReal" prefHeight="31.0" prefWidth="436.0" text="Grafica" />
-                        <Button mnemonicParsing="false" onMouseClicked="#ButtonMapaNacionalReal" prefHeight="31.0" prefWidth="441.0" text="Mapa" />
-                     </children>
-                  </VBox>
+                  </HBox>
                </children>
-            </HBox>
+            </StackPane>
          </children>
-      </StackPane>
+      </VBox>
    </children>
 </AnchorPane>
