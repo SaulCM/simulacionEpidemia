@@ -7,6 +7,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -31,7 +33,7 @@
             </Label>
             <HBox prefHeight="33.0" prefWidth="1300.0" style="-fx-background-color: #051937;">
                <children>
-                  <Button mnemonicParsing="false" onMouseClicked="#SelectedNacional" stylesheets="@../css/style.css" text="Nacional" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onMouseClicked="#SelectedNacional" stylesheets="@../css/style.css" text="Bolivia" textFill="WHITE" />
                   <Button mnemonicParsing="false" onMouseClicked="#SelectedCochabamba" stylesheets="@../css/style.css" text="Cochabamba" textFill="WHITE" />
                   <Button mnemonicParsing="false" onMouseClicked="#SelectedLaPaz" stylesheets="@../css/style.css" text="La Paz" textFill="WHITE" />
                   <Button mnemonicParsing="false" onMouseClicked="#SelectedSantaCruz" stylesheets="@../css/style.css" text="Santa Cruz" textFill="WHITE" />
@@ -50,6 +52,17 @@
                   <Button mnemonicParsing="false" onMouseClicked="#SelectedMapaDeRiesgo" stylesheets="@../css/style2.css" text="Mapa de Riesgo" textFill="WHITE" />
                </children>
             </HBox>
+            <Label fx:id="tituloSeleccion" prefHeight="21.0" prefWidth="1300.0" text="Simulación Bolivia" textFill="#ae3d3d">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets left="580.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
             <StackPane>
                <children>
                   <HBox fx:id="VistaNacional" prefHeight="750.0" prefWidth="1300.0">
@@ -153,61 +166,125 @@
                                     <Line endX="50.0" endY="-19.0" layoutX="296.0" layoutY="595.0" startX="-91.0" startY="24.0" />
                                     <Line endX="72.0" endY="-10.0" layoutX="521.0" layoutY="581.0" startX="-83.0" startY="6.0" />
                                     <Line endX="40.0" endY="-20.0" layoutX="527.0" layoutY="666.0" startX="-40.0" startY="-20.0" />
-                                    <Label layoutX="91.0" layoutY="72.0" prefHeight="21.0" prefWidth="93.0" text="1,045 Casos" />
-                                    <Label layoutX="66.0" layoutY="211.0" prefHeight="21.0" prefWidth="101.0" text="7.402 Casos" />
-                                    <Label layoutX="69.0" layoutY="489.0" prefHeight="21.0" prefWidth="95.0" text="1.921 Casos" />
-                                    <Label layoutX="57.0" layoutY="365.0" prefHeight="21.0" prefWidth="101.0" text="5.468 Casos" />
-                                    <Label layoutX="133.0" layoutY="644.0" prefHeight="21.0" prefWidth="78.0" text="969 Casos" />
-                                    <Label layoutX="559.0" layoutY="98.0" text="4.904 Casos" />
-                                    <Label layoutX="732.0" layoutY="211.0" text="26.124 Casos" />
-                                    <Label layoutX="599.0" layoutY="587.0" prefHeight="21.0" prefWidth="93.0" text="1.374 Casos" />
-                                    <Label layoutX="555.0" layoutY="665.0" prefHeight="21.0" prefWidth="88.0" text="1,660 Casos" />
+                                    <Label fx:id="contagiosPando" layoutX="91.0" layoutY="72.0" prefHeight="21.0" prefWidth="93.0" text="1,045 Casos" />
+                                    <Label fx:id="contagiosLapaz" layoutX="66.0" layoutY="211.0" prefHeight="21.0" prefWidth="101.0" text="7.402 Casos" />
+                                    <Label fx:id="contagiosOruro" layoutX="69.0" layoutY="489.0" prefHeight="21.0" prefWidth="95.0" text="1.921 Casos" />
+                                    <Label fx:id="contagiosCochabamba" layoutX="57.0" layoutY="365.0" prefHeight="21.0" prefWidth="101.0" text="5.468 Casos" />
+                                    <Label fx:id="contagiosPotosi" layoutX="133.0" layoutY="644.0" prefHeight="21.0" prefWidth="78.0" text="969 Casos" />
+                                    <Label fx:id="contagiosBeni" layoutX="559.0" layoutY="98.0" text="4.904 Casos" />
+                                    <Label fx:id="contagiosSantacruz" layoutX="732.0" layoutY="211.0" text="26.124 Casos" />
+                                    <Label fx:id="contagiosChuquisaca" layoutX="599.0" layoutY="587.0" prefHeight="21.0" prefWidth="93.0" text="1.374 Casos" />
+                                    <Label fx:id="contagiosTarija" layoutX="555.0" layoutY="665.0" prefHeight="21.0" prefWidth="88.0" text="1,660 Casos" />
                                  </children>
                               </AnchorPane>
+                              <TableView fx:id="tablaReporteEpidemiologico" prefHeight="200.0" prefWidth="200.0" visible="false">
+                                <columns>
+                                  <TableColumn fx:id="columnFecha" editable="false" prefWidth="128.0" text="Fecha" />
+                                  <TableColumn fx:id="columnNuevosCasos" editable="false" minWidth="0.0" prefWidth="133.0" text="Nuevos Casos" />
+                                    <TableColumn fx:id="columnTotalContagiados" editable="false" minWidth="0.0" prefWidth="157.0" text="Total Contagiados" />
+                                    <TableColumn fx:id="columnRecuperados" editable="false" prefWidth="120.0" text="Recuperados" />
+                                    <TableColumn fx:id="columnTotalRecuperados" prefWidth="160.0" text="Total Recuperados" />
+                                    <TableColumn fx:id="columnFallecidos" editable="false" prefWidth="126.0" text="Fallecidos" />
+                                    <TableColumn fx:id="columnTotalFallecidos" prefWidth="145.0" text="TotalFallecidos" />
+                                </columns>
+                              </TableView>
                            </children>
                         </StackPane>
-                        <StackPane>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
+                        <VBox fx:id="Estadisticas" prefHeight="750.0" prefWidth="420.0">
                            <children>
-                              <VBox fx:id="ResultadosSimulacion" prefHeight="750.0" prefWidth="375.0">
-                                 <children>
-                                    <Label prefHeight="21.0" prefWidth="311.0" text="Mayor número de contagios en un día" />
-                                    <TextField fx:id="ResMaxNumContagios" editable="false" prefHeight="25.0" prefWidth="324.0" />
-                                    <Label prefHeight="23.0" prefWidth="318.0" text="Mayor cantidad de infectados en un día" />
-                                    <TextField fx:id="ResMaxNumInfectados" editable="false" />
-                                    <Label prefHeight="23.0" prefWidth="308.0" text="Mayor cantidad de recuperaciones en un día" />
-                                    <TextField fx:id="ResMaxNumRecuperados" editable="false" />
-                                    <Label prefHeight="18.0" prefWidth="324.0" text="Mayor cantidad de fallecidos en un día" />
-                                    <TextField fx:id="ResMaxNumFallecidos" editable="false" />
-                                    <Label prefHeight="17.0" prefWidth="322.0" text="Total Infectados" />
-                                    <TextField fx:id="TotalInfectados" />
-                                    <Label prefHeight="21.0" prefWidth="315.0" text="Total Recuperados" />
-                                    <TextField fx:id="TotalRecuperados" />
-                                    <Label prefHeight="12.0" prefWidth="308.0" text="Total Fallecidos" />
-                                    <TextField fx:id="TotalFallecidos" />
-                                    <Label prefHeight="6.0" prefWidth="310.0" />
-                                 </children>
+                              <Label prefHeight="21.0" prefWidth="295.0" text="Estadísticas al último día" textOverrun="CENTER_ELLIPSIS" underline="true">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
                                  <padding>
-                                    <Insets left="10.0" right="10.0" />
+                                    <Insets top="10.0" />
                                  </padding>
-                              </VBox>
-                              <VBox fx:id="Estadisticas" prefHeight="750.0" prefWidth="420.0" visible="false">
-                                 <children>
-                                    <Label text="Casos Totales Actual" />
-                                    <TextField promptText="50.867" />
-                                    <Label prefHeight="21.0" prefWidth="101.0" text="Casos Activos Actual" />
-                                    <TextField promptText="33.150" />
-                                    <Label text="Pacientes Recuperados Actual" />
-                                    <TextField promptText="15.819" />
-                                    <Label text="Número de Decesos Actual" />
-                                    <TextField promptText="1898" />
-                                    <Label prefHeight="524.0" prefWidth="402.0" />
-                                 </children>
-                              </VBox>
+                                 <VBox.margin>
+                                    <Insets left="60.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label prefHeight="21.0" prefWidth="294.0">
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding></Label>
+                              <Label text="Nuevos Casos">
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin></Label>
+                              <TextField fx:id="estaNuevosCasos">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin></TextField>
+                              <Label prefHeight="21.0" prefWidth="101.0" text="Contagiados">
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin></Label>
+                              <TextField fx:id="estaContagiados">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin></TextField>
+                              <Label text="Recuperados">
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin></Label>
+                              <TextField fx:id="estaRecuperados">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin></TextField>
+                              <Label text="Fallecidos">
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin></Label>
+                              <TextField fx:id="estaFallecidos">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin></TextField>
+                              <Label prefHeight="21.0" prefWidth="293.0" />
+                              <Label prefHeight="21.0" prefWidth="311.0" text="Mayor número de contagios en un día">
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin></Label>
+                              <TextField fx:id="ResMaxNumContagios" editable="false" prefHeight="25.0" prefWidth="324.0">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin></TextField>
+                              <Label prefHeight="23.0" prefWidth="308.0" text="Mayor cantidad de recuperaciones en un día">
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin></Label>
+                              <TextField fx:id="ResMaxNumRecuperados" editable="false">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin></TextField>
+                              <Label prefHeight="18.0" prefWidth="324.0" text="Mayor cantidad de fallecidos en un día">
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin></Label>
+                              <TextField fx:id="ResMaxNumFallecidos" editable="false">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin></TextField>
+                              <Label prefHeight="21.0" prefWidth="290.0" text="Tasa de letalidad">
+                                 <padding>
+                                    <Insets left="90.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="resTasaLetalidad">
+                                 <VBox.margin>
+                                    <Insets left="100.0" right="100.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label prefHeight="524.0" prefWidth="402.0">
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin></Label>
+                              <Button fx:id="switchGraficoTabla" mnemonicParsing="false" onMouseClicked="#selectedGraficoTabla" text="Tabla de Datos">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="10.0" />
+                                 </VBox.margin>
+                              </Button>
                            </children>
-                        </StackPane>
+                        </VBox>
                      </children>
                   </HBox>
                </children>

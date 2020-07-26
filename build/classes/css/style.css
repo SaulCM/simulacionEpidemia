@@ -8,7 +8,7 @@
 .button:hover{
     -fx-background-color: #A8EB12;
 }
-.button:pressed{
+.button:selected{
     -fx-background-color: #A8EB12;
 }
 .comboBox{
