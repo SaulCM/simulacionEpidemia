@@ -11,7 +11,7 @@ public class LoadDriver {
          Connection cn = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            cn=DriverManager.getConnection("jdbc:mysql://localhost/epidemiologia","root","root");
+            cn=DriverManager.getConnection("jdbc:mysql://localhost/epidemiologia","root","");
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());

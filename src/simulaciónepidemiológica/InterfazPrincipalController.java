@@ -37,6 +37,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JRDesignQuery;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
@@ -178,8 +186,39 @@ public class InterfazPrincipalController implements Initializable {
     @FXML private TextField estaFallecidos;
     
     @FXML private Button switchGraficoTabla;
-
-
+    
+    
+    @FXML
+    void generarReporte(MouseEvent event) {
+        try {
+            System.out.println("asd");
+            Class.forName("com.mysql.jdbc.Driver");
+            conn=DriverManager.getConnection("jdbc:mysql://localhost/epidemiologia","root","");
+            JasperDesign jdesign=JRXmlLoader.load("C:\\Users\\Master\\Documents\\NetBeansProjects\\SimulaciónEpidemiológica\\src\\reportes\\newReport.jrxml");
+            String query="SELECT\n" +
+"     reporte_epidemiologico.`fecha` AS reporte_epidemiologico_fecha,\n" +
+"     reporte_epidemiologico.`totalContagiados` AS reporte_epidemiologico_totalContagiados,\n" +
+"     reporte_epidemiologico.`totalRecuperados` AS reporte_epidemiologico_totalRecuperados,\n" +
+"     reporte_epidemiologico.`totalFallecidos` AS reporte_epidemiologico_totalFallecidos,\n" +
+"     reporte_epidemiologico.`nuevos_casos` AS reporte_epidemiologico_nuevos_casos,\n" +
+"     reporte_epidemiologico.`recuperados` AS reporte_epidemiologico_recuperados,\n" +
+"     reporte_epidemiologico.`fallecidos` AS reporte_epidemiologico_fallecidos\n" +
+"FROM\n" +
+"     `reporte_epidemiologico` reporte_epidemiologico WHERE fecha='10 de marzo'";
+            JRDesignQuery updateQuery= new JRDesignQuery();
+            updateQuery.setText(query);
+            
+            jdesign.setQuery(updateQuery);
+            
+            JasperReport jreport=JasperCompileManager.compileReport(jdesign);
+            JasperPrint jprint=JasperFillManager.fillReport(jreport,null,conn);
+            JasperViewer.viewReport(jprint);
+            System.out.println("asda");
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
     @FXML
     void Simular(MouseEvent event) {
@@ -384,7 +423,7 @@ public class InterfazPrincipalController implements Initializable {
          }
                             try {
             conn = LoadDriver.getConnection();
-            String sql = "SELECT * FROM reporteepidemiologico r WHERE r.region_id="+region_id+";";
+            String sql = "SELECT * FROM reporte_epidemiologico r WHERE r.region_id="+region_id+";";
             sent= conn.createStatement();
             ResultSet rs=sent.executeQuery(sql);
             
@@ -594,7 +633,7 @@ public class InterfazPrincipalController implements Initializable {
         for (int i = 1; i < 10; i++) {
             try {
                 conn = LoadDriver.getConnection();
-                String sql = "SELECT * FROM reporteepidemiologico r WHERE r.region_id="+i+";";
+                String sql = "SELECT * FROM reporte_epidemiologico r WHERE r.region_id="+i+";";
                 sent= conn.createStatement();
                 ResultSet rs=sent.executeQuery(sql);
                 String contagiados="";
