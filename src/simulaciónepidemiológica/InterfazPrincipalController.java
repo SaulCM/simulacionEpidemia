@@ -186,6 +186,8 @@ public class InterfazPrincipalController implements Initializable {
     @FXML private TextField estaFallecidos;
     
     @FXML private Button switchGraficoTabla;
+    @FXML private Button buttonReportes;
+
     
     
     @FXML
@@ -196,15 +198,18 @@ public class InterfazPrincipalController implements Initializable {
             conn=DriverManager.getConnection("jdbc:mysql://localhost/epidemiologia","root","");
             JasperDesign jdesign=JRXmlLoader.load("C:\\Users\\Master\\Documents\\NetBeansProjects\\SimulaciónEpidemiológica\\src\\reportes\\newReport.jrxml");
             String query="SELECT\n" +
+"	reporte_epidemiologico.`id` AS reporte_epidemiologico_id,\n" +
 "     reporte_epidemiologico.`fecha` AS reporte_epidemiologico_fecha,\n" +
 "     reporte_epidemiologico.`totalContagiados` AS reporte_epidemiologico_totalContagiados,\n" +
 "     reporte_epidemiologico.`totalRecuperados` AS reporte_epidemiologico_totalRecuperados,\n" +
 "     reporte_epidemiologico.`totalFallecidos` AS reporte_epidemiologico_totalFallecidos,\n" +
 "     reporte_epidemiologico.`nuevos_casos` AS reporte_epidemiologico_nuevos_casos,\n" +
 "     reporte_epidemiologico.`recuperados` AS reporte_epidemiologico_recuperados,\n" +
-"     reporte_epidemiologico.`fallecidos` AS reporte_epidemiologico_fallecidos\n" +
+"     reporte_epidemiologico.`fallecidos` AS reporte_epidemiologico_fallecidos,\n" +
+"     region.`region` AS region_region\n" +
 "FROM\n" +
-"     `reporte_epidemiologico` reporte_epidemiologico WHERE fecha='10 de marzo'";
+"     `region` region INNER JOIN `reporte_epidemiologico` reporte_epidemiologico\n" +
+"ON region.region_id=reporte_epidemiologico.region_id where region.region="+"'"+region+"'";
             JRDesignQuery updateQuery= new JRDesignQuery();
             updateQuery.setText(query);
             
@@ -212,7 +217,8 @@ public class InterfazPrincipalController implements Initializable {
             
             JasperReport jreport=JasperCompileManager.compileReport(jdesign);
             JasperPrint jprint=JasperFillManager.fillReport(jreport,null,conn);
-            JasperViewer.viewReport(jprint);
+            JasperViewer jv = new JasperViewer( jprint, false );
+            jv.viewReport(jprint,false);
             System.out.println("asda");
             
         } catch (Exception e) {
@@ -383,11 +389,12 @@ public class InterfazPrincipalController implements Initializable {
 
     }
     public void graficarDatosNacionalesReales(){
+        clearData();
         
         for ( int i = 0; i<tablaReporteEpidemiologico.getItems().size(); i++) {
             tablaReporteEpidemiologico.getItems().clear(); 
         } 
-         clearData();
+         
          XYChart.Series series1=new XYChart.Series();
          XYChart.Series series2=new XYChart.Series();
          XYChart.Series series3=new XYChart.Series();
@@ -428,6 +435,7 @@ public class InterfazPrincipalController implements Initializable {
             ResultSet rs=sent.executeQuery(sql);
             
             while(rs.next()){
+                
                 nuevosCasos=Integer.parseInt(rs.getString("nuevos_casos"));
                 contagiados=Integer.parseInt(rs.getString("totalContagiados"));
                 recuperados=Integer.parseInt(rs.getString("totalRecuperados"));
@@ -438,9 +446,10 @@ public class InterfazPrincipalController implements Initializable {
                 maxNumFallecidos=0;
                 
                 series1.getData().add(new XYChart.Data(rs.getString("fecha"),nuevosCasos));
-             series2.getData().add(new XYChart.Data(rs.getString("fecha"),contagiados));
-             series3.getData().add(new XYChart.Data(rs.getString("fecha"),recuperados));
-             series4.getData().add(new XYChart.Data(rs.getString("fecha"),fallecidos));
+                series2.getData().add(new XYChart.Data(rs.getString("fecha"),contagiados));
+                series3.getData().add(new XYChart.Data(rs.getString("fecha"),recuperados));
+                series4.getData().add(new XYChart.Data(rs.getString("fecha"),fallecidos));
+                
              // Mostrar resultado de ultima fecha en Labels
                 if (Integer.parseInt(rs.getString("nuevos_casos"))>maxNumContagios) {
                     maxNumContagios=Integer.parseInt(rs.getString("nuevos_casos"));
@@ -468,24 +477,13 @@ public class InterfazPrincipalController implements Initializable {
              Integer.parseInt(rs.getString("fallecidos")),
              Integer.parseInt(rs.getString("totalFallecidos")));
             tablaReporteEpidemiologico.getItems().add(r);
-                    
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-             //XYChart.data data=new XYChart.Data(Double.toString(i+1),datosCalculados[i][4]);
-            // Rectangle rect = new Rectangle(0, 0);
-            //rect.setVisible(false);
-            //data.setNode(rect);
-            // series1.getData().add(xychart,datosCalculados[i][3]));
-             
-        
-         //series1.getData().add(new XYChart.Data("",2));
-         grafica.setCreateSymbols(false);
-        // grafica.getYAxis().setTickLabelsVisible(false);
-         //grafica.getYAxis().setOpacity(0);
-         grafica.getData().addAll(series1,series2,series3,series4);
+        grafica.setCreateSymbols(false);
+        grafica.getData().addAll(series1,series2,series3,series4);
     }
 
         @FXML
@@ -539,6 +537,7 @@ public class InterfazPrincipalController implements Initializable {
         this.VistaMapa.setVisible(false);
         this.grafica.setVisible(true);
         this.Estadisticas.setVisible(true);
+        this.buttonReportes.setVisible(true);
     }
         @FXML
     void SelectedSimulacion(MouseEvent event) {
@@ -549,6 +548,7 @@ public class InterfazPrincipalController implements Initializable {
         this.VistaMapa.setVisible(false);
         this.grafica.setVisible(true);
         this.Estadisticas.setVisible(true);
+        this.buttonReportes.setVisible(false);
         
     }
             @FXML
@@ -559,7 +559,7 @@ public class InterfazPrincipalController implements Initializable {
         this.VistaMapa.setVisible(true);
         this.grafica.setVisible(false);
         this.Estadisticas.setVisible(false);
-        
+        buttonReportes.setVisible(true);
     }
        @FXML
     void TransporteBioseguridadClicked(MouseEvent event) {

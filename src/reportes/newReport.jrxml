@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cec80f0c-fd1d-4cfb-9b43-7be1708c948c">
-	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="326"/>
 	<queryString>
 		<![CDATA[SELECT
+	reporte_epidemiologico.`id` AS reporte_epidemiologico_id,
      reporte_epidemiologico.`fecha` AS reporte_epidemiologico_fecha,
      reporte_epidemiologico.`totalContagiados` AS reporte_epidemiologico_totalContagiados,
      reporte_epidemiologico.`totalRecuperados` AS reporte_epidemiologico_totalRecuperados,
      reporte_epidemiologico.`totalFallecidos` AS reporte_epidemiologico_totalFallecidos,
      reporte_epidemiologico.`nuevos_casos` AS reporte_epidemiologico_nuevos_casos,
      reporte_epidemiologico.`recuperados` AS reporte_epidemiologico_recuperados,
-     reporte_epidemiologico.`fallecidos` AS reporte_epidemiologico_fallecidos
+     reporte_epidemiologico.`fallecidos` AS reporte_epidemiologico_fallecidos,
+     region.`region` AS region_region
 FROM
-     `reporte_epidemiologico` reporte_epidemiologico
-WHERE fecha='10 de marzo';]]>
+     `region` region INNER JOIN `reporte_epidemiologico` reporte_epidemiologico
+ON region.region_id=reporte_epidemiologico.region_id 
+]]>
 	</queryString>
+	<field name="reporte_epidemiologico_id" class="java.lang.Integer"/>
 	<field name="reporte_epidemiologico_fecha" class="java.lang.String"/>
 	<field name="reporte_epidemiologico_totalContagiados" class="java.lang.Integer"/>
 	<field name="reporte_epidemiologico_totalRecuperados" class="java.lang.Integer"/>
@@ -23,6 +27,7 @@ WHERE fecha='10 de marzo';]]>
 	<field name="reporte_epidemiologico_nuevos_casos" class="java.lang.Integer"/>
 	<field name="reporte_epidemiologico_recuperados" class="java.lang.Integer"/>
 	<field name="reporte_epidemiologico_fallecidos" class="java.lang.Integer"/>
+	<field name="region_region" class="java.lang.String"/>
 	<variable name="reporte_epidemiologico_totalContagiados_1" class="java.lang.Integer" resetType="Column" calculation="Highest">
 		<variableExpression><![CDATA[$F{reporte_epidemiologico_totalContagiados}]]></variableExpression>
 	</variable>
@@ -42,16 +47,16 @@ WHERE fecha='10 de marzo';]]>
 		<variableExpression><![CDATA[$F{reporte_epidemiologico_totalFallecidos}]]></variableExpression>
 	</variable>
 	<title>
-		<band height="79" splitType="Stretch">
+		<band height="77" splitType="Stretch">
 			<staticText>
-				<reportElement x="178" y="0" width="189" height="20" uuid="2183e8e9-f000-435a-94b2-bce13090f2dc"/>
+				<reportElement x="178" y="0" width="233" height="20" uuid="2183e8e9-f000-435a-94b2-bce13090f2dc"/>
 				<textElement>
 					<font size="14" isBold="true" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[REPORTE CASOS BOLIVIA]]></text>
+				<text><![CDATA[REPORTE EPIDEMIOLÓGICO]]></text>
 			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="0" y="0" width="100" height="20" uuid="f5732517-9be3-4a5c-9766-e390907ffd05"/>
+				<reportElement x="21" y="0" width="100" height="20" uuid="f5732517-9be3-4a5c-9766-e390907ffd05"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<image>
@@ -61,72 +66,185 @@ WHERE fecha='10 de marzo';]]>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="21" width="181" height="20" uuid="6cbf0a96-43ad-4010-97c0-2fe4cc806bc2"/>
+				<textElement>
+					<font isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Datos desde el 10 de marzo]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="40" width="555" height="1" uuid="aeb62cfe-dca7-40a5-bf1d-1583d20c9115"/>
+			</line>
+		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch">
+		<band height="41" splitType="Stretch">
 			<staticText>
-				<reportElement x="119" y="45" width="86" height="16" uuid="50ed46e6-7039-4900-9353-92937989bbf9"/>
+				<reportElement x="138" y="0" width="59" height="34" uuid="50ed46e6-7039-4900-9353-92937989bbf9"/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Total Contagiados]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="284" y="45" width="93" height="16" uuid="44cb388f-668a-45ac-a420-6a9f91e37b8f"/>
+				<reportElement x="283" y="0" width="73" height="34" uuid="44cb388f-668a-45ac-a420-6a9f91e37b8f"/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Total Recuperados]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="449" y="45" width="95" height="16" uuid="2dd161c4-4850-4f62-8be8-c413c9e26006"/>
-				<text><![CDATA[Total Fallecidos]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="49" y="45" width="70" height="16" uuid="49064ab8-5d11-48f4-b4ef-4ac3db65259b"/>
+				<reportElement x="83" y="0" width="55" height="34" uuid="49064ab8-5d11-48f4-b4ef-4ac3db65259b"/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Nuevos Casos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="205" y="45" width="79" height="16" uuid="fc006043-288c-49e4-8ff1-e7dcad4d8ac5"/>
+				<reportElement x="207" y="0" width="62" height="34" uuid="fc006043-288c-49e4-8ff1-e7dcad4d8ac5"/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Recuperados]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="377" y="45" width="72" height="16" uuid="8941d4f4-b106-41a3-9ee0-6df05df20a7e"/>
+				<reportElement x="356" y="1" width="58" height="34" uuid="8941d4f4-b106-41a3-9ee0-6df05df20a7e"/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Fallecidos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="45" width="49" height="16" uuid="f15619f4-6d8a-4c3a-8a15-7307dafa0b26"/>
+				<reportElement x="0" y="0" width="83" height="34" uuid="f15619f4-6d8a-4c3a-8a15-7307dafa0b26"/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="471" y="1" width="84" height="34" uuid="8d8a9cb2-b589-4be4-bafe-422b2a5609bf"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Región]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="34" width="555" height="1" uuid="9197ba8e-4904-46c9-8174-115664dc0c16"/>
+			</line>
+			<staticText>
+				<reportElement x="414" y="1" width="57" height="34" uuid="2dd161c4-4850-4f62-8be8-c413c9e26006"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Total Fallecidos]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="24" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="49" height="20" uuid="176815cf-3807-42bc-92ed-337f7160e64a"/>
+				<reportElement x="0" y="0" width="83" height="20" uuid="176815cf-3807-42bc-92ed-337f7160e64a"/>
 				<textFieldExpression><![CDATA[$F{reporte_epidemiologico_fecha}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="119" y="0" width="86" height="20" uuid="00379f01-0d12-4ea6-b9a4-bea72fce1b36"/>
+				<reportElement x="138" y="0" width="59" height="20" uuid="00379f01-0d12-4ea6-b9a4-bea72fce1b36"/>
 				<textFieldExpression><![CDATA[$F{reporte_epidemiologico_totalContagiados}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="284" y="0" width="93" height="20" uuid="6ae1bc31-8f7e-45d8-8b0c-c482a1a29e46"/>
+				<reportElement x="83" y="0" width="55" height="20" uuid="bba20729-b7a1-444b-8f77-ced81d7d9c77"/>
+				<textFieldExpression><![CDATA[$F{reporte_epidemiologico_nuevos_casos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="356" y="0" width="58" height="20" uuid="63bd5675-a5e1-4ca5-8ec2-53b595ec0c63"/>
+				<textFieldExpression><![CDATA[$F{reporte_epidemiologico_fallecidos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="207" y="0" width="62" height="20" uuid="79f48873-5644-4260-89c0-ad2c0144b591"/>
+				<textFieldExpression><![CDATA[$F{reporte_epidemiologico_recuperados}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="283" y="0" width="73" height="20" uuid="6ae1bc31-8f7e-45d8-8b0c-c482a1a29e46"/>
 				<textFieldExpression><![CDATA[$F{reporte_epidemiologico_totalRecuperados}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="449" y="0" width="95" height="20" uuid="d5de2907-d9d4-4429-8f3b-709649070017">
+				<reportElement x="414" y="0" width="57" height="20" uuid="d5de2907-d9d4-4429-8f3b-709649070017">
 					<property name="net.sf.jasperreports.export.pdf.tag.table" value="full"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{reporte_epidemiologico_totalFallecidos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="49" y="0" width="70" height="20" uuid="bba20729-b7a1-444b-8f77-ced81d7d9c77"/>
-				<textFieldExpression><![CDATA[$F{reporte_epidemiologico_nuevos_casos}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="205" y="0" width="79" height="20" uuid="79f48873-5644-4260-89c0-ad2c0144b591"/>
-				<textFieldExpression><![CDATA[$F{reporte_epidemiologico_recuperados}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="377" y="0" width="72" height="20" uuid="63bd5675-a5e1-4ca5-8ec2-53b595ec0c63"/>
-				<textFieldExpression><![CDATA[$F{reporte_epidemiologico_fallecidos}]]></textFieldExpression>
+				<reportElement x="471" y="0" width="84" height="20" uuid="3307b430-0f65-4eee-8556-af82f3a8acf3"/>
+				<textFieldExpression><![CDATA[$F{region_region}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
+	<columnFooter>
+		<band height="364">
+			<lineChart>
+				<chart>
+					<reportElement x="0" y="24" width="555" height="159" uuid="8c05da74-01a0-4541-84fe-edeabc970953"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Contagiados"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{reporte_epidemiologico_fecha}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{reporte_epidemiologico_totalContagiados}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Recuperados"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{reporte_epidemiologico_fecha}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{reporte_epidemiologico_totalRecuperados}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Fallecidos"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{reporte_epidemiologico_fecha}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{reporte_epidemiologico_totalFallecidos}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<bar3DChart>
+				<chart>
+					<reportElement x="0" y="203" width="555" height="161" uuid="d94e49cc-95c3-4816-adf2-ab98f0916c89"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Contagios desde 10 de marzo"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{reporte_epidemiologico_fecha}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{reporte_epidemiologico_nuevos_casos}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+			<line>
+				<reportElement x="0" y="23" width="555" height="1" uuid="775e7997-8068-4a59-b8df-1cd0b2443c77"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="4" width="207" height="20" uuid="100a6e0a-48c9-46a9-9d10-0502c45afb39"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contagiados - Recuperados- Fallecidos]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="203" width="555" height="1" uuid="6e9568ca-bd1b-4046-aecb-3623120428d8"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="184" width="181" height="20" uuid="f1fc53fa-68d7-41b6-9231-c29babb8495d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Casos nuevos reportados]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
 </jasperReport>
