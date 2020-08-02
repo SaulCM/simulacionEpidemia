@@ -12,10 +12,6 @@ public class LoadDriver {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             cn=DriverManager.getConnection("jdbc:mysql://localhost/epidemiologia","root","");
-        } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
         }catch(Exception e1){
             System.out.println("Error: " + e1.getMessage());
         }

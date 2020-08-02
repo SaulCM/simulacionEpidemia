@@ -14,8 +14,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +29,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -81,6 +85,7 @@ public class InterfazPrincipalController implements Initializable {
             
     private Boolean cBTransportePublicoRestriccionPlaca=false;
     private Boolean cBTransportePublicoBioseguridad=false;
+    private Boolean conPeriodos=false;
     
     private double contagios=0;
     private double recuperaciones=0;
@@ -99,31 +104,22 @@ public class InterfazPrincipalController implements Initializable {
         double totalInfectados=0;
         double totalRecuperados=0;
         double totalFallecidos=0;
-    private ArrayList<Integer> datosNalRealCasosTotales=new ArrayList<Integer>(Arrays.asList(2,3,3,10,10,11,11,12,12,17,19,20,27,28,32,39,61,74,81,96,107,115,
-            123,132,139,157,183,194,210,264,268,275,300,330,354,397,441,465,493,520,564,598,609,672,703,807,866,950,1014,1053,1110,1167,
-            1229,1470,1594,1681,1802,1886,2081,2266,2437,2556,2831,2964,3148,3372,3577,3826,4088,4263,4481,4919,5187,5579,5915,6263,6660,7136,7768,8387,8731,9592,9982,
-            10531,10991,11638,12245,12728,13358,13643,13949,14644,15281,16165,16929,17642,18468,19073,19883,20685,21499,22476,23512,24388,25493,26389,27487,28503,29423,30676,31524,32125,33219,
-            34227,35528,36818,38071,39297,40509,41545,42984,44113,45565,47200,48187,49250,50867,
-            52218,54156,56102,58138,59582,60991,62357));
-    private ArrayList<Integer> datosNalRealCasosActivos=new ArrayList<Integer>(Arrays.asList(2,3,3,10,10,11,11,12,12,17,19,20,27,28,32,39,61,74,81,93,101,108,
-                114,121,127,145,170,177,192,243,245,251,272,297,320,362,398,408,431,457,500,517,525,582,597,700,745,819,861,888,934,973,
-                1029,1240,1352,1425,1529,1597,1760,1923,2065,2166,2421,2523,2667,2864,2979,3188,3426,3586,3759,4167,4411,4774,5066,5384,5752,6185,6799,7356,7682,8393,8683,
-                9051,9317,9731,10172,10562,11002,11092,11315,11967,12508,13260,13939,14489,14735,15011,15472,16004,16482,17091,17686,18161,18816,19243,19816,20252,20753,21548,21993,22126,22756,
-                23262,23899,24732,25421,26196,27104,27617,28524,29121,29945,31113,31537,32090,33150,
-                33919,35193,36171,37832,38878,39898,40794));
-    private ArrayList<Integer> datosNalRealRecuperados=new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                1,2,2,2,2,3,3,3,4,4,4,6,6,7,14,26,31,31,31,47,47,50,63,63,75,81,100,110,117,132,
-                134,159,166,174,187,198,219,237,258,275,289,313,339,356,434,473,493,503,533,553,561,575,609,629,647,677,689,738,749,889,986,
-                137,1298,1507,1658,1739,1902,2086,2159,2190,2261,2372,2431,2768,3113,3430,3752,4002,4320,4670,5086,5454,5857,6300,6795,7338,7736,8158,8517,8928,9340,
-                9764,10358,10766,11272,11667,11929,12398,12883,13354,13918,14333,14843,15294,15819,
-                16357,16979,17882,18200,18553,18875,19290));
-    private ArrayList<Integer> datosNalRealFallecidos=new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,7,
-                8,9,10,10,11,14,15,18,19,20,24,27,28,28,29,31,31,32,33,34,37,40,43,44,46,50,53,55,59,62,
-                66,71,76,82,86,91,102,106,114,117,121,128,142,152,164,165,169,174,189,199,215,230,240,250,261,274,280,293,300,310,313,
-                343,376,400,415,427,454,465,475,487,512,533,559,585,611,632,659,679,697,715,740,773,820,846,876,913,934,970,1014,1071,1123,
-                1201,1271,1320,1378,1434,1476,1530,1577,1638,1702,1754,1807,1866,1898,
-                1942,1984,2049,2106,2151,2218,2273));
     
+    private String[]fechas={"10-03-2020",
+"11-03-2020","12-03-2020","13-03-2020","14-03-2020","15-03-2020","16-03-2020","17-03-2020","18-03-2020","19-03-2020","20-03-2020","21-03-2020","22-03-2020","23-03-2020","24-03-2020","25-03-2020","26-03-2020","27-03-2020","28-03-2020","29-03-2020","30-03-2020","31-03-2020","01-04-2020","02-04-2020","03-04-2020","04-04-2020","05-04-2020","06-04-2020","07-04-2020","08-04-2020","09-04-2020","10-04-2020","11-04-2020","12-04-2020","13-04-2020","15-04-2020","16-04-2020",
+"17-04-2020","18-04-2020","19-04-2020","20-04-2020","22-04-2020","23-04-2020","24-04-2020","25-04-2020","26-04-2020","27-04-2020","28-04-2020","29-04-2020","30-04-2020","01-05-2020","02-05-2020","03-05-2020","04-05-2020","05-05-2020","06-05-2020","07-05-2020","08-05-2020","09-05-2020","10-05-2020","11-05-2020","12-05-2020","13-05-2020","14-05-2020","15-05-2020","16-05-2020","17-05-2020","18-05-2020","19-05-2020","20-05-2020","21-05-2020","22-05-2020","23-05-2020",
+"24-05-2020","25-05-2020","26-05-2020","27-05-2020","28-05-2020","29-05-2020","30-05-2020","31-05-2020","01-06-2020","02-06-2020","03-06-2020","04-06-2020","05-06-2020","06-06-2020","07-06-2020","08-06-2020","09-06-2020","10-06-2020","11-06-2020","12-06-2020","13-06-2020","14-06-2020","15-06-2020","16-06-2020","17-06-2020","18-06-2020","19-06-2020","20-06-2020","21-06-2020","22-06-2020","23-06-2020","24-06-2020","25-06-2020","26-06-2020","27-06-2020","28-06-2020",
+"29-06-2020","30-06-2020","01-07-2020","02-07-2020","03-07-2020","04-07-2020","05-07-2020","06-07-2020","07-07-2020","08-07-2020","09-07-2020","10-07-2020","11-07-2020","12-07-2020","13-07-2020","14-07-2020","15-07-2020","16-07-2020","17-07-2020","18-07-2020","19-07-2020","20-07-2020","21-07-2020","22-07-2020","23-07-2020","24-07-2020","25-07-2020","26-07-2020","27-07-2020","28-07-2020","29-07-2020","30-07-2020","31-07-2020","01-08-2020","02-08-2020","03-08-2020",
+"04-08-2020","05-08-2020","06-08-2020","07-08-2020","08-08-2020","09-08-2020","10-08-2020","11-08-2020","12-08-2020","13-08-2020","14-08-2020","15-08-2020","16-08-2020","17-08-2020","18-08-2020","19-08-2020","20-08-2020","21-08-2020","22-08-2020","23-08-2020","24-08-2020","25-08-2020","26-08-2020","27-08-2020","28-08-2020","29-08-2020","30-08-2020","31-08-2020","01-09-2020","02-09-2020","03-09-2020","04-09-2020","05-09-2020","06-09-2020","07-09-2020","08-09-2020",
+"09-09-2020","10-09-2020","11-09-2020","12-09-2020","13-09-2020","14-09-2020","15-09-2020","16-09-2020","17-09-2020","18-09-2020","19-09-2020","20-09-2020","21-09-2020","22-09-2020","23-09-2020","24-09-2020","25-09-2020","26-09-2020","27-09-2020","28-09-2020","29-09-2020","30-09-2020","01-10-2020","02-10-2020","03-10-2020","04-10-2020","05-10-2020","06-10-2020","07-10-2020","08-10-2020","09-10-2020","10-10-2020","11-10-2020","12-10-2020","13-10-2020","14-10-2020",
+"15-10-2020","16-10-2020","17-10-2020","18-10-2020","19-10-2020","20-10-2020","21-10-2020","22-10-2020","23-10-2020","24-10-2020","25-10-2020","26-10-2020","27-10-2020","28-10-2020","29-10-2020","30-10-2020","31-10-2020","01-11-2020","02-11-2020","03-11-2020","04-11-2020","05-11-2020","06-11-2020","07-11-2020","08-11-2020","09-11-2020","10-11-2020","11-11-2020","12-11-2020","13-11-2020","14-11-2020","15-11-2020","16-11-2020","17-11-2020","18-11-2020","19-11-2020",
+"20-11-2020","21-11-2020","22-11-2020","23-11-2020","24-11-2020","25-11-2020","26-11-2020","27-11-2020","28-11-2020","29-11-2020","30-11-2020","01-12-2020","02-12-2020","03-12-2020","04-12-2020","05-12-2020","06-12-2020","07-12-2020","08-12-2020","09-12-2020","10-12-2020","11-12-2020","12-12-2020","13-12-2020","14-12-2020","15-12-2020","16-12-2020","17-12-2020","18-12-2020","19-12-2020","20-12-2020","21-12-2020","22-12-2020","23-12-2020","24-12-2020","25-12-2020",
+"26-12-2020","27-12-2020","28-12-2020","29-12-2020","30-12-2020","31-12-2020","01-01-2021","02-01-2021","03-01-2021","04-01-2021","05-01-2021","06-01-2021","07-01-2021","08-01-2021","09-01-2021","10-01-2021","11-01-2021","12-01-2021","13-01-2021","14-01-2021","15-01-2021","16-01-2021","17-01-2021","18-01-2021","19-01-2021","20-01-2021","21-01-2021","22-01-2021","23-01-2021","24-01-2021","25-01-2021","26-01-2021","27-01-2021","28-01-2021","29-01-2021","30-01-2021",
+"31-01-2021","01-02-2021","02-02-2021","03-02-2021","04-02-2021","05-02-2021","06-02-2021","07-02-2021","08-02-2021","09-02-2021","10-02-2021","11-02-2021","12-02-2021","13-02-2021","14-02-2021","15-02-2021","16-02-2021","17-02-2021","18-02-2021","19-02-2021","20-02-2021","21-02-2021","22-02-2021","23-02-2021","24-02-2021","25-02-2021","26-02-2021","27-02-2021","28-02-2021","01-03-2021","02-03-2021","03-03-2021","04-03-2021","05-03-2021","06-03-2021","07-03-2021",
+"08-03-2021","09-03-2021","10-03-2021","11-03-2021","12-03-2021","13-03-2021","14-03-2021","15-03-2021","16-03-2021","17-03-2021","18-03-2021","19-03-2021","20-03-2021","21-03-2021","22-03-2021","23-03-2021","24-03-2021","25-03-2021","26-03-2021","27-03-2021","28-03-2021","29-03-2021","30-03-2021","31-03-2021","01-04-2021","02-04-2021","03-04-2021","04-04-2021","05-04-2021","06-04-2021","07-04-2021","08-04-2021","09-04-2021","10-04-2021","11-04-2021","12-04-2021",
+"13-04-2021","14-04-2021","15-04-2021","16-04-2021","17-04-2021","18-04-2021","19-04-2021","20-04-2021","21-04-2021","22-04-2021","23-04-2021","24-04-2021","25-04-2021","26-04-2021","27-04-2021","28-04-2021","29-04-2021","30-04-2021","01-05-2021","02-05-2021","03-05-2021","04-05-2021","05-05-2021","06-05-2021","07-05-2021","08-05-2021","09-05-2021","10-05-2021","11-05-2021","12-05-2021","13-05-2021","14-05-2021","15-05-2021","16-05-2021","17-05-2021","18-05-2021",
+"19-05-2021","20-05-2021","21-05-2021","22-05-2021","23-05-2021","24-05-2021","25-05-2021","26-05-2021","27-05-2021","28-05-2021","29-05-2021","30-05-2021","31-05-2021","01-06-2021","02-06-2021","03-06-2021","04-06-2021","05-06-2021","06-06-2021","07-06-2021","08-06-2021","09-06-2021","10-06-2021","11-06-2021","12-06-2021","13-06-2021","14-06-2021","15-06-2021","16-06-2021","17-06-2021","18-06-2021","19-06-2021","20-06-2021","21-06-2021","22-06-2021","23-06-2021",
+"24-06-2021","25-06-2021","26-06-2021","27-06-2021","28-06-2021","29-06-2021","30-06-2021"};
     
     private double[][]datosCalculados;
     //private ArrayList<ArrayList<Double>> datosCalculados;
@@ -185,6 +181,9 @@ public class InterfazPrincipalController implements Initializable {
     @FXML private TextField estaRecuperados;
     @FXML private TextField estaFallecidos;
     
+    @FXML private DatePicker datepickerFechaInicial;
+    @FXML private DatePicker datepickerFechaFinal;
+    @FXML private CheckBox checkBoxPeriodo;
     @FXML private Button switchGraficoTabla;
     @FXML private Button buttonReportes;
 
@@ -193,7 +192,6 @@ public class InterfazPrincipalController implements Initializable {
     @FXML
     void generarReporte(MouseEvent event) {
         try {
-            System.out.println("asd");
             Class.forName("com.mysql.jdbc.Driver");
             conn=DriverManager.getConnection("jdbc:mysql://localhost/epidemiologia","root","");
             JasperDesign jdesign=JRXmlLoader.load("C:\\Users\\Master\\Documents\\NetBeansProjects\\SimulaciónEpidemiológica\\src\\reportes\\newReport.jrxml");
@@ -219,7 +217,6 @@ public class InterfazPrincipalController implements Initializable {
             JasperPrint jprint=JasperFillManager.fillReport(jreport,null,conn);
             JasperViewer jv = new JasperViewer( jprint, false );
             jv.viewReport(jprint,false);
-            System.out.println("asda");
             
         } catch (Exception e) {
             System.out.println(e);
@@ -233,10 +230,12 @@ public class InterfazPrincipalController implements Initializable {
 
     }
     public void simulacion(){
-        poblacionInicial=Double.parseDouble(PoblacionInicial.getText());
         
+        //Se obtiene la población inicial 
+        poblacionInicial=Double.parseDouble(PoblacionInicial.getText());
+        //De acuerdo al tipo de medidas tomadas se altera la variable Tasa diaria de interacción
         if (tipoCuarentena.equals("dinamica")) {
-        tasaDiariaInteraccion=4.0;
+        tasaDiariaInteraccion=4.6;
         circulacionPoblDias=Double.parseDouble(CirculacionPoblDias.getText());
         circulacionPoblHoras=Double.parseDouble(CirculacionPoblHoras.getText());
         circulacionTransporteDias=Double.parseDouble(CirculacionTransporteDias.getText());
@@ -248,19 +247,21 @@ public class InterfazPrincipalController implements Initializable {
             if (cBTransportePublicoRestriccionPlaca==true) {
                 tasaDiariaInteraccion-=0.02;
             }
-        System.out.println(cBTransportePublicoBioseguridad);
         
         tasaDiariaInteraccion-=(1-(circulacionPoblDias/10));
         tasaDiariaInteraccion-=(1-(circulacionPoblHoras/100));
-        tasaDiariaInteraccion-=(circulacionTransporteDias/100);
-        tasaDiariaInteraccion-=(diasMercado/100);
-
+        tasaDiariaInteraccion-=(0.3-(circulacionTransporteDias/30));
+        tasaDiariaInteraccion-=(0.3-(diasMercado/30));
+        System.out.println(tasaDiariaInteraccion);
         }
-        
+        //Se obtiene los días que se quieren simular
         diasSimulacion=Integer.parseInt(DiasSimulacion.getText());
+        //Se crea un array para almacenar los datos calculados
         datosCalculados=new double[diasSimulacion][7];
-        susceptibles=poblacionInicial-infectados;
         
+        //Se establece la cantidad de susceptibles inicial
+        susceptibles=poblacionInicial-infectados;
+        //Ciclo que calcula las variables de contagios recuperados fallecidos en base a la anterior iteración
         for (int i = 0; i < datosCalculados.length; i++) {
             contagios=infectados*tasaDiariaInteraccion*(1-0.4)*probabilidadContagio*susceptibles/(susceptibles+infectados+recuperados);
             recuperaciones=infectados*tasaRecuperacion/duracionEnfermedad;
@@ -280,37 +281,54 @@ public class InterfazPrincipalController implements Initializable {
                 datosCalculados[i][6]=fallecidos;
                 
                 DecimalFormat df = new DecimalFormat("#");
-
-                System.out.print(String.valueOf(df.format(datosCalculados[i][0]))+" ");
-                System.out.print(String.valueOf(df.format(datosCalculados[i][1]))+" ");
-                System.out.print(String.valueOf(df.format(datosCalculados[i][2]))+" ");
-                System.out.print(String.valueOf(df.format(datosCalculados[i][3]))+" ");
-                System.out.print(String.valueOf(df.format(datosCalculados[i][4]))+" ");
-                System.out.print(String.valueOf(df.format(datosCalculados[i][5]))+" ");
-                System.out.print(String.valueOf(df.format(datosCalculados[i][6]))+" ");
-                System.out.println();
         }
         graficar();
         mostrarResultados();
     }
     public void graficar(){
-        grafica.getData().clear();
+        grafica.getData().clear();// Borrar datos anteriores
          XYChart.Series series1=new XYChart.Series();
          XYChart.Series series2=new XYChart.Series();
          XYChart.Series series3=new XYChart.Series();
          XYChart.Series series4=new XYChart.Series();
-         
+         //Nombrar las series de datos
          series1.setName("Susceptibles");
          series2.setName("Infectados");
          series3.setName("Recuperados");
          series4.setName("Fallecidos");
         
+         boolean flagEsLaFecha=false;
          for (int i = 0; i < datosCalculados.length; i++) {
-
-             series1.getData().add(new XYChart.Data(Integer.toString(i+1),datosCalculados[i][3]));
-             series2.getData().add(new XYChart.Data(Integer.toString(i+1),datosCalculados[i][4]));
-             series3.getData().add(new XYChart.Data(Integer.toString(i+1),datosCalculados[i][5]));
-             series4.getData().add(new XYChart.Data(Integer.toString(i+1),datosCalculados[i][6]));
+             if(conPeriodos==true){
+                 LocalDate ld=datepickerFechaInicial.getValue();
+                DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                String fechaIni=ld.format(formatter);
+                 if (fechas[i].equals(fechaIni)) {
+                     flagEsLaFecha=true;
+                     
+                     }
+                     LocalDate ld2=datepickerFechaFinal.getValue();
+                     String fechaFin=ld2.format(formatter);
+                 if (fechas[i].equals(fechaFin)) {
+                        series1.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][3]));
+                        series2.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][4]));
+                        series3.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][5]));
+                        series4.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][6])); 
+                        flagEsLaFecha=false;
+                   }
+                 if (flagEsLaFecha==true) {
+                        series1.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][3]));
+                        series2.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][4]));
+                        series3.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][5]));
+                        series4.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][6])); 
+                 }
+             }
+             else{
+             series1.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][3]));
+             series2.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][4]));
+             series3.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][5]));
+             series4.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][6]));             
+             }
         }
          //series1.getData().add(new XYChart.Data("",2));
          grafica.setCreateSymbols(false);
@@ -350,7 +368,6 @@ public class InterfazPrincipalController implements Initializable {
             totalRecuperados+=datosCalculados[i][1];
             totalFallecidos+=datosCalculados[i][2];
             nuevosCasos=datosCalculados[i][0];
-            System.out.println(tasaLetalidad);
         }
         DecimalFormat df = new DecimalFormat("#");
         DecimalFormat df2=new DecimalFormat("#.##");
@@ -400,10 +417,10 @@ public class InterfazPrincipalController implements Initializable {
          XYChart.Series series3=new XYChart.Series();
          XYChart.Series series4=new XYChart.Series();
          
-         series1.setName("Nuevos Casos");
-         series2.setName("Contagiados");
-         series3.setName("Recuperados");
-         series4.setName("Fallecidos");
+         series1.setName("Contagiados");
+         series2.setName("Recuperados");
+         series3.setName("Fallecidos");
+         series4.setName("Nuevos Casos");
          
          int nuevosCasos=0;
          int contagiados=0;
@@ -433,9 +450,10 @@ public class InterfazPrincipalController implements Initializable {
             String sql = "SELECT * FROM reporte_epidemiologico r WHERE r.region_id="+region_id+";";
             sent= conn.createStatement();
             ResultSet rs=sent.executeQuery(sql);
-            
+            boolean flagEsLaFecha=false;// boolean para controlar que se grafique los datos entre las fechas establecidas
+            //Mientras hayan registros recuperados de la base de datos, se ejecuta el codigo para cada registro
             while(rs.next()){
-                
+                //Recuperar los campos de cada registro
                 nuevosCasos=Integer.parseInt(rs.getString("nuevos_casos"));
                 contagiados=Integer.parseInt(rs.getString("totalContagiados"));
                 recuperados=Integer.parseInt(rs.getString("totalRecuperados"));
@@ -444,11 +462,46 @@ public class InterfazPrincipalController implements Initializable {
                 maxNumContagios=0;
                 maxNumRecuperados=0;
                 maxNumFallecidos=0;
+                //Obtener el campo fecha y formatear a un formato igual al utilizado    
+                String fecha=rs.getString("fecha");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                //convert String to LocalDate
+                LocalDate localDate = LocalDate.parse(fecha, formatter);
                 
-                series1.getData().add(new XYChart.Data(rs.getString("fecha"),nuevosCasos));
-                series2.getData().add(new XYChart.Data(rs.getString("fecha"),contagiados));
-                series3.getData().add(new XYChart.Data(rs.getString("fecha"),recuperados));
-                series4.getData().add(new XYChart.Data(rs.getString("fecha"),fallecidos));
+                DateTimeFormatter formatter2=DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                String fechaFormateada=localDate.format(formatter2);
+                
+                if(conPeriodos==true){
+                 LocalDate ld=datepickerFechaInicial.getValue();
+                String fechaIni=ld.format(formatter2);
+                 if (fechaFormateada.equals(fechaIni)) {
+                     flagEsLaFecha=true;
+                     
+                     }
+                     LocalDate ld2=datepickerFechaFinal.getValue();
+                     String fechaFin=ld2.format(formatter2);
+                 if (fechaFormateada.equals(fechaFin)) {
+                     System.out.println("1");
+                        series1.getData().add(new XYChart.Data(fechaFormateada,contagiados));
+                        series2.getData().add(new XYChart.Data(fechaFormateada,recuperados));
+                        series3.getData().add(new XYChart.Data(fechaFormateada,fallecidos));
+                        series4.getData().add(new XYChart.Data(fechaFormateada,nuevosCasos));  
+                        flagEsLaFecha=false;
+                   }
+                 if (flagEsLaFecha==true) {
+                     System.out.println("2");
+                        series1.getData().add(new XYChart.Data(fechaFormateada,contagiados));
+                        series2.getData().add(new XYChart.Data(fechaFormateada,recuperados));
+                        series3.getData().add(new XYChart.Data(fechaFormateada,fallecidos));
+                        series4.getData().add(new XYChart.Data(fechaFormateada,nuevosCasos)); 
+                 }
+             }
+             else{
+                series1.getData().add(new XYChart.Data(fechaFormateada,contagiados));
+                series2.getData().add(new XYChart.Data(fechaFormateada,recuperados));
+                series3.getData().add(new XYChart.Data(fechaFormateada,fallecidos));
+                series4.getData().add(new XYChart.Data(fechaFormateada,nuevosCasos));            
+             }
                 
              // Mostrar resultado de ultima fecha en Labels
                 if (Integer.parseInt(rs.getString("nuevos_casos"))>maxNumContagios) {
@@ -505,7 +558,7 @@ public class InterfazPrincipalController implements Initializable {
         CheckBoxCuarentenaR.setSelected(false);
         CheckBoxSinCuarentena.setSelected(false);
                 tipoCuarentena="dinamica";
-                tasaDiariaInteraccion=4;
+                tasaDiariaInteraccion=5;
         
         }
     }
@@ -526,6 +579,17 @@ public class InterfazPrincipalController implements Initializable {
                 tipoCuarentena="sincuarentena";
                 tasaDiariaInteraccion=7;
         }
+    }
+        @FXML
+    void checkBoxPeriodoClicked(MouseEvent event) {
+            if (conPeriodos==false) {
+                checkBoxPeriodo.setSelected(true);
+                conPeriodos=true;
+            }
+            else{
+                    checkBoxPeriodo.setSelected(false);
+                    conPeriodos=false;
+            }
     }
         @FXML
     void SelectedEstadisticas(MouseEvent event) {
@@ -621,7 +685,7 @@ public class InterfazPrincipalController implements Initializable {
         //graficarDatosNacionalesReales();
         CheckBoxSinCuarentena.setSelected(true);
         conn=LoadDriver.getConnection();
-        
+        //Declaración de columnas de tableview
         columnFecha.setCellValueFactory(new PropertyValueFactory<reporteEpidemiologico,String>("Fecha"));
         columnNuevosCasos.setCellValueFactory(new PropertyValueFactory<reporteEpidemiologico,Integer>("NuevosCasos"));
         columnTotalContagiados.setCellValueFactory(new PropertyValueFactory<reporteEpidemiologico,Integer>("TotalContagiados"));
@@ -629,7 +693,7 @@ public class InterfazPrincipalController implements Initializable {
         columnTotalRecuperados.setCellValueFactory(new PropertyValueFactory<reporteEpidemiologico,Integer>("TotalRecuperados"));
         columnFallecidos.setCellValueFactory(new PropertyValueFactory<reporteEpidemiologico,Integer>("Fallecidos"));
         columnTotalFallecidos.setCellValueFactory(new PropertyValueFactory<reporteEpidemiologico,Integer>("TotalFallecidos"));
-        
+        // Llenar datos Mapa de riesgo
         for (int i = 1; i < 10; i++) {
             try {
                 conn = LoadDriver.getConnection();
@@ -657,6 +721,7 @@ public class InterfazPrincipalController implements Initializable {
             } catch (SQLException ex) {
                 Logger.getLogger(InterfazPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
         }
     }
     
