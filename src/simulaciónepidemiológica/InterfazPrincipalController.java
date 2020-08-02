@@ -684,6 +684,8 @@ public class InterfazPrincipalController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        System.out.println("java version: "+System.getProperty("java.version"));
+System.out.println("javafx.version: " + System.getProperty("javafx.version"));
         dbConnector=new LoadDriver();
         //graficarDatosNacionalesReales();
         CheckBoxSinCuarentena.setSelected(true);
