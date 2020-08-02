@@ -60,6 +60,7 @@ public class InterfazPrincipalController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    LoadDriver dbConnector;
     Connection conn;
     Statement sent;
 
@@ -192,9 +193,10 @@ public class InterfazPrincipalController implements Initializable {
     @FXML
     void generarReporte(MouseEvent event) {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn=DriverManager.getConnection("jdbc:mysql://localhost/epidemiologia","root","");
-            JasperDesign jdesign=JRXmlLoader.load("C:\\Users\\Master\\Documents\\NetBeansProjects\\SimulaciónEpidemiológica\\src\\reportes\\newReport.jrxml");
+            conn=dbConnector.getConnection();
+           //Class.forName("com.mysql.jdbc.Driver");
+            //conn=DriverManager.getConnection("jdbc:mysql://localhost/epidemiologia","root","");
+            JasperDesign jdesign=JRXmlLoader.load("src\\reportes\\newReport.jrxml");
             String query="SELECT\n" +
 "	reporte_epidemiologico.`id` AS reporte_epidemiologico_id,\n" +
 "     reporte_epidemiologico.`fecha` AS reporte_epidemiologico_fecha,\n" +
@@ -446,7 +448,7 @@ public class InterfazPrincipalController implements Initializable {
              case "Simulación": region_id=11; break;
          }
                             try {
-            conn = LoadDriver.getConnection();
+            conn = dbConnector.getConnection();
             String sql = "SELECT * FROM reporte_epidemiologico r WHERE r.region_id="+region_id+";";
             sent= conn.createStatement();
             ResultSet rs=sent.executeQuery(sql);
@@ -651,11 +653,11 @@ public class InterfazPrincipalController implements Initializable {
         @FXML
     void SelectedNacional(MouseEvent event) {
                         simulacion();
-        this.opcion="Simulación";
+        this.opcion="Estadísticas";
         this.region="Bolivia";
         PoblacionInicial.setText("11633371");
         graficarDatosNacionalesReales();
-        this.ParametrosSimulacion.setVisible(true);
+        this.ParametrosSimulacion.setVisible(false);
         this.VistaMapa.setVisible(false);
         this.grafica.setVisible(true);
         this.Estadisticas.setVisible(true);
@@ -682,9 +684,10 @@ public class InterfazPrincipalController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        dbConnector=new LoadDriver();
         //graficarDatosNacionalesReales();
         CheckBoxSinCuarentena.setSelected(true);
-        conn=LoadDriver.getConnection();
+        conn=dbConnector.getConnection();
         //Declaración de columnas de tableview
         columnFecha.setCellValueFactory(new PropertyValueFactory<reporteEpidemiologico,String>("Fecha"));
         columnNuevosCasos.setCellValueFactory(new PropertyValueFactory<reporteEpidemiologico,Integer>("NuevosCasos"));

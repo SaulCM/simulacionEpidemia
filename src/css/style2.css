@@ -1,22 +1,18 @@
-
-.comboBox:filled{
-    -fx-text-fill: #ffffff; 
-}
 .button{
     -fx-background-color:  #808080;
 }
 .button:hover{
     -fx-background-color: #778899;
 }
-.button:pressed{
+.button:cell-selection{
     -fx-background-color: #778899;
 }
-.comboBox{
-    -fx-background-color:  #051937;
+.button:checked{
+    -fx-background-color: #778899;
 }
-.comboBox:hover{
-    -fx-background-color: #A8EB12;
+.button:selected {
+    -fx-background-color: #778899;
 }
-.comboBox:pressed{
-    -fx-background-color: #A8EB12;
+.button:pressed{
+    -fx-background-color: #778899;
 }
