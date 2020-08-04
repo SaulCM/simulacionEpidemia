@@ -268,7 +268,6 @@ public class InterfazPrincipalController implements Initializable {
         tasaDiariaInteraccion-=(1-(circulacionPoblHoras/100));
         tasaDiariaInteraccion-=(0.3-(circulacionTransporteDias/30));
         tasaDiariaInteraccion-=(0.3-(diasMercado/30));
-        System.out.println(tasaDiariaInteraccion);
         }
         //Se obtiene los días que se quieren simular
         diasSimulacion=Integer.parseInt(DiasSimulacion.getText());
@@ -300,6 +299,120 @@ public class InterfazPrincipalController implements Initializable {
         }
         graficar();
         mostrarResultados();
+    }
+    public void graficarMixta(){
+    grafica.getData().clear();// Borrar datos anteriores
+         XYChart.Series seriesInf1=new XYChart.Series();
+         XYChart.Series seriesInf2=new XYChart.Series();
+         XYChart.Series seriesInf3=new XYChart.Series();
+         XYChart.Series seriesInf4=new XYChart.Series();
+         XYChart.Series seriesCont1=new XYChart.Series();
+         XYChart.Series seriesCont2=new XYChart.Series();
+         XYChart.Series seriesCont3=new XYChart.Series();
+         XYChart.Series seriesCont4=new XYChart.Series();
+         //Nombrar las series de datos
+         seriesInf1.setName("Infectados Periodo 1");
+         seriesInf2.setName("Infectados Periodo 2");
+         seriesInf3.setName("Infectados Periodo 3");
+         seriesInf4.setName("Infectados Periodo 4");
+         seriesCont1.setName("Contagios Periodo 1");
+         seriesCont2.setName("Contagios Periodo 2");
+         seriesCont3.setName("Contagios Periodo 3");
+         seriesCont4.setName("Contagios Periodo 4");
+        
+         DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            
+            LocalDate fechaMixta1 = DatePickerFechaMixta1.getValue();
+            LocalDate fechaMixta2 = DatePickerFechaMixta2.getValue();
+            LocalDate fechaMixta3 = DatePickerFechaMixta3.getValue();
+            LocalDate fechaMixta4 = DatePickerFechaMixta4.getValue();
+            
+         boolean flagEsLaFecha=false;
+         for (int i = 0; i < datosCalculados.length; i++) {
+             LocalDate fechaIteracion= LocalDate.parse(fechas[i], formatter);
+             if(conPeriodos==true){
+                 LocalDate ld=datepickerFechaInicial.getValue();
+                String fechaIni=ld.format(formatter);
+                 if (fechas[i].equals(fechaIni)) {
+                     flagEsLaFecha=true;
+                     
+                     }
+                 
+                     LocalDate ld2=datepickerFechaFinal.getValue();
+                     String fechaFin=ld2.format(formatter);
+                 if (fechas[i].equals(fechaFin)) {
+                     
+                        if(fechaMixta1!=null&&(fechaIteracion.isBefore(fechaMixta1)||fechaIteracion.isEqual(fechaMixta1))){
+                            seriesInf1.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][0]));
+                            seriesCont1.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][4]));
+                        }
+                        if(fechaMixta2!=null&&(fechaIteracion.isBefore(fechaMixta2)||fechaIteracion.isEqual(fechaMixta2))&&(fechaIteracion.isAfter(fechaMixta1))){
+                            seriesInf2.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][0]));
+                            seriesCont2.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][4]));
+                        }
+                        if(fechaMixta3!=null&&(fechaIteracion.isBefore(fechaMixta3)||fechaIteracion.isEqual(fechaMixta3))&&(fechaIteracion.isAfter(fechaMixta2))){
+                            seriesInf3.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][0]));
+                            seriesCont3.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][4]));
+                        }
+                        if(fechaMixta4!=null&&(fechaIteracion.isBefore(fechaMixta4)||fechaIteracion.isEqual(fechaMixta4))&&(fechaIteracion.isAfter(fechaMixta3))){
+                            seriesInf4.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][0]));
+                            seriesCont4.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][4])); 
+                        }
+                        flagEsLaFecha=false;
+                   }
+                 if (flagEsLaFecha==true) {
+                        
+                        if(fechaMixta1!=null&&(fechaIteracion.isBefore(fechaMixta1)||fechaIteracion.isEqual(fechaMixta1))){
+                            seriesInf1.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][0]));
+                            seriesCont1.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][4]));
+                        }
+                        if(fechaMixta2!=null&&(fechaIteracion.isBefore(fechaMixta2)||fechaIteracion.isEqual(fechaMixta2))&&(fechaIteracion.isAfter(fechaMixta1))){
+                            seriesInf2.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][0]));
+                            seriesCont2.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][4]));
+                        }
+                        if(fechaMixta3!=null&&(fechaIteracion.isBefore(fechaMixta3)||fechaIteracion.isEqual(fechaMixta3))&&(fechaIteracion.isAfter(fechaMixta2))){
+                            seriesInf3.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][0]));
+                            seriesCont3.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][4]));
+                        }
+                        if(fechaMixta4!=null&&(fechaIteracion.isBefore(fechaMixta4)||fechaIteracion.isEqual(fechaMixta4))&&(fechaIteracion.isAfter(fechaMixta3))){
+                            seriesInf4.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][0]));
+                            seriesCont4.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][4])); 
+                        }
+                 }
+             }
+             else{
+                        if(fechaMixta1!=null&&(fechaIteracion.isBefore(fechaMixta1)||fechaIteracion.isEqual(fechaMixta1))){
+                            seriesInf1.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][0]));
+                            seriesCont1.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][4]));
+                        }
+                        if(fechaMixta2!=null&&(fechaIteracion.isBefore(fechaMixta2)||fechaIteracion.isEqual(fechaMixta2))&&(fechaIteracion.isAfter(fechaMixta1))){
+                            seriesInf2.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][0]));
+                            seriesCont2.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][4]));
+                        }
+                        if(fechaMixta3!=null&&(fechaIteracion.isBefore(fechaMixta3)||fechaIteracion.isEqual(fechaMixta3))&&(fechaIteracion.isAfter(fechaMixta2))){
+                            seriesInf3.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][0]));
+                            seriesCont3.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][4]));
+                        }
+                        if(fechaMixta4!=null&&(fechaIteracion.isBefore(fechaMixta4)||fechaIteracion.isEqual(fechaMixta4))&&(fechaIteracion.isAfter(fechaMixta3))){
+                            seriesInf4.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][0]));
+                            seriesCont4.getData().add(new XYChart.Data(fechas[i],datosCalculados[i][4])); 
+                        }          
+             }
+        }
+         grafica.setCreateSymbols(false);
+         if(fechaMixta1!=null){
+             grafica.getData().addAll(seriesInf1,seriesCont1);
+         }
+         if(fechaMixta2!=null){
+             grafica.getData().addAll(seriesInf2,seriesCont2);
+         }
+         if(fechaMixta3!=null){
+             grafica.getData().addAll(seriesInf3,seriesCont3);
+         }
+         if(fechaMixta4!=null){
+             grafica.getData().addAll(seriesInf4,seriesCont4);
+         }
+        limpiarDatos();
     }
     public void graficar(){
         grafica.getData().clear();// Borrar datos anteriores
@@ -352,6 +465,138 @@ public class InterfazPrincipalController implements Initializable {
          //grafica.getYAxis().setOpacity(0);
          grafica.getData().addAll(series2,series3,series4);
         limpiarDatos();
+    }
+    
+     @FXML    void SimularMixta(MouseEvent event) {simulacionMixta();}
+     
+    public void simulacionMixta(){
+        //Se obtiene la población inicial 
+        poblacionInicial=Double.parseDouble(PoblacionInicial.getText());
+        //Se obtiene la tasa de interaccion con cuarentena dinamica
+        double tasaInteraaccionDinamica=0;
+        tasaDiariaInteraccion=4.6;
+        circulacionPoblDias=Double.parseDouble(CirculacionPoblDias.getText());
+        circulacionPoblHoras=Double.parseDouble(CirculacionPoblHoras.getText());
+        circulacionTransporteDias=Double.parseDouble(CirculacionTransporteDias.getText());
+        diasMercado=Double.parseDouble(DiasMercado.getText());
+
+                    if (cBTransportePublicoBioseguridad==true) {
+                tasaDiariaInteraccion-=0.02;
+            }
+            if (cBTransportePublicoRestriccionPlaca==true) {
+                tasaDiariaInteraccion-=0.02;
+            }
+        
+        tasaDiariaInteraccion-=(1-(circulacionPoblDias/10));
+        tasaDiariaInteraccion-=(1-(circulacionPoblHoras/100));
+        tasaDiariaInteraccion-=(0.24-(circulacionTransporteDias/30));
+        tasaDiariaInteraccion-=(0.24-(diasMercado/30));
+        
+        tasaInteraaccionDinamica=tasaDiariaInteraccion;
+        //Se obtiene los días que se quieren simular
+        diasSimulacion=Integer.parseInt(DiasSimulacion.getText());
+        //Se crea un array para almacenar los datos calculados
+        datosCalculados=new double[diasSimulacion][7];
+        
+        //Se establece la cantidad de susceptibles inicial
+        susceptibles=poblacionInicial-infectados;
+        double tasaInteraccionPeriodo1=0;
+        double tasaInteraccionPeriodo2=0;
+        double tasaInteraccionPeriodo3=0;
+        double tasaInteraccionPeriodo4=0;
+        //Ciclo que calcula las variables de contagios recuperados fallecidos en base a la anterior iteración
+        for (int i = 0; i < datosCalculados.length; i++) {
+            //Formatear fechas del selector de fechas al formato dd-MM-YYYY
+            DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            
+            LocalDate fechaMixta1 = DatePickerFechaMixta1.getValue();
+            LocalDate fechaMixta2 = DatePickerFechaMixta2.getValue();
+            LocalDate fechaMixta3 = DatePickerFechaMixta3.getValue();
+            LocalDate fechaMixta4 = DatePickerFechaMixta4.getValue();
+            
+            String fechaFormateada1="";
+            String fechaFormateada2="";
+            String fechaFormateada3="";
+            String fechaFormateada4="";
+            
+            boolean esPeriodo1=true;
+            boolean esPeriodo2=false;
+            boolean esPeriodo3=false;
+            boolean esPeriodo4=false;
+            
+            //Si se establecen fechas para cuarentena mixta, y se guardan los valores de tasa de interaccion para los periodos ingresados
+                switch(ComboBoxTipoMixta1.getValue()){
+                    case "Cuarentena Rígida": tasaDiariaInteraccion=2.5; break;
+                    case "Cuarentena Dinámica": tasaDiariaInteraccion=tasaInteraaccionDinamica; break;
+                    case "Sin Cuarentena": tasaDiariaInteraccion=7; break;
+                }
+                System.out.println("fechaMixta1: "+fechaMixta1);
+                System.out.println("fechaMixta2: "+fechaMixta2);
+                System.out.println("fechaMixta3: "+fechaMixta3);
+                System.out.println("fechaMixta4: "+fechaMixta4);
+                
+            if (fechaMixta2!=null) {
+                
+                fechaFormateada1=fechaMixta1.format(formatter);
+                    if(fechas[i].equals(fechaFormateada1)){
+                        switch(ComboBoxTipoMixta2.getValue()){
+                            case "Cuarentena Rígida": tasaDiariaInteraccion=2.5; break;
+                            case "Cuarentena Dinámica": tasaDiariaInteraccion=tasaInteraaccionDinamica; break;
+                            case "Sin Cuarentena": tasaDiariaInteraccion=7; break;
+                        }
+                        esPeriodo1=false;
+                        esPeriodo2=true;
+                    }
+            }
+            if (fechaMixta3!=null) {
+                fechaFormateada2=fechaMixta2.format(formatter);
+                    if(fechas[i].equals(fechaFormateada2)){
+                        switch(ComboBoxTipoMixta3.getValue()){
+                            case "Cuarentena Rígida": tasaDiariaInteraccion=2.5; break;
+                            case "Cuarentena Dinámica": tasaDiariaInteraccion=tasaInteraaccionDinamica; break;
+                            case "Sin Cuarentena": tasaDiariaInteraccion=7; break;
+                        }
+                        esPeriodo2=false;
+                        esPeriodo3=true;
+                    }
+            }
+            if (fechaMixta4!=null) {
+                fechaFormateada3=fechaMixta3.format(formatter);
+                    if(fechas[i].equals(fechaFormateada3)){
+                        switch(ComboBoxTipoMixta4.getValue()){
+                            case "Cuarentena Rígida": tasaDiariaInteraccion=2.5; break;
+                            case "Cuarentena Dinámica": tasaDiariaInteraccion=tasaInteraaccionDinamica; break;
+                            case "Sin Cuarentena": tasaDiariaInteraccion=7; break;
+                        }
+                        esPeriodo3=false;
+                        esPeriodo4=true;
+                    }       
+                                    
+           }
+            
+            
+            contagios=infectados*tasaDiariaInteraccion*(1-0.4)*probabilidadContagio*susceptibles/(susceptibles+infectados+recuperados);
+            recuperaciones=infectados*tasaRecuperacion/duracionEnfermedad;
+            fallecimientos=infectados*tasaLetalidad/12;
+                datosCalculados[i][0]=contagios;
+                datosCalculados[i][1]=recuperaciones;
+                datosCalculados[i][2]=fallecimientos;
+                
+                susceptibles=susceptibles-contagios;
+                fallecidos=fallecidos+fallecimientos;
+                recuperados=recuperados+recuperaciones;
+                infectados=infectados+contagios-recuperaciones-fallecimientos;
+                
+                datosCalculados[i][3]=susceptibles;
+                datosCalculados[i][4]=infectados;
+                datosCalculados[i][5]=recuperados;
+                datosCalculados[i][6]=fallecidos;
+                
+                DecimalFormat df = new DecimalFormat("#");
+        }
+        graficarMixta();
+        mostrarResultados();
+        
     }
     public void mostrarResultados(){
         double nuevosCasos=0;
@@ -497,7 +742,6 @@ public class InterfazPrincipalController implements Initializable {
                      LocalDate ld2=datepickerFechaFinal.getValue();
                      String fechaFin=ld2.format(formatter2);
                  if (fechaFormateada.equals(fechaFin)) {
-                     System.out.println("1");
                         series1.getData().add(new XYChart.Data(fechaFormateada,contagiados));
                         series2.getData().add(new XYChart.Data(fechaFormateada,recuperados));
                         series3.getData().add(new XYChart.Data(fechaFormateada,fallecidos));
@@ -505,7 +749,6 @@ public class InterfazPrincipalController implements Initializable {
                         flagEsLaFecha=false;
                    }
                  if (flagEsLaFecha==true) {
-                     System.out.println("2");
                         series1.getData().add(new XYChart.Data(fechaFormateada,contagiados));
                         series2.getData().add(new XYChart.Data(fechaFormateada,recuperados));
                         series3.getData().add(new XYChart.Data(fechaFormateada,fallecidos));
@@ -731,11 +974,10 @@ public class InterfazPrincipalController implements Initializable {
         columnFallecidos.setCellValueFactory(new PropertyValueFactory<reporteEpidemiologico,Integer>("Fallecidos"));
         columnTotalFallecidos.setCellValueFactory(new PropertyValueFactory<reporteEpidemiologico,Integer>("TotalFallecidos"));
         //Llenar los items de tipo de cuarentena para simulacion mixta
-        ComboBoxTipoMixta1.getItems().addAll(
-            "Cuarentena Rígida",
-            "Cuarentena Dinámica",
-            "Sin Cuarentena"
-        );
+        ComboBoxTipoMixta1.getItems().addAll("Cuarentena Rígida","Cuarentena Dinámica","Sin Cuarentena");
+        ComboBoxTipoMixta2.getItems().addAll("Cuarentena Rígida","Cuarentena Dinámica","Sin Cuarentena");
+        ComboBoxTipoMixta3.getItems().addAll("Cuarentena Rígida","Cuarentena Dinámica","Sin Cuarentena");
+        ComboBoxTipoMixta4.getItems().addAll("Cuarentena Rígida","Cuarentena Dinámica","Sin Cuarentena");
         // Llenar datos Mapa de riesgo
         for (int i = 1; i < 10; i++) {
             try {

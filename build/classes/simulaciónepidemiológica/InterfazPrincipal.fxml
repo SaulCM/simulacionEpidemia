@@ -63,6 +63,7 @@
                                     <children>
                                         <Label text="Dias" textFill="#d6d6d6" />
                                         <TextField fx:id="DiasSimulacion" text="200" />
+                              <Label text="*Inicio 10-03-2020" textFill="#d6d6d6" />
                                         <Label text="Población Inicial" textFill="#d6d6d6" />
                                         <TextField fx:id="PoblacionInicial" promptText="Población Inicial" text="11633371" />
                               <Label fx:id="LabelSimulacionBasica" prefHeight="21.0" prefWidth="170.0" text="Seleccione tipo:" textFill="#d6d6d6">
@@ -147,13 +148,14 @@
                                     <Insets left="65.0" top="10.0" />
                                  </VBox.margin>
                                         </Button>
-                              <VBox fx:id="VistaSimulacionMixta">
+                              <VBox fx:id="VistaSimulacionMixta" visible="false">
                                  <children>
                                     <Label prefHeight="21.0" prefWidth="173.0" text="Seleccione fecha y tipo" textFill="#d6d6d6">
                                        <font>
                                           <Font name="System Bold" size="15.0" />
                                        </font>
                                     </Label>
+                                    <Label prefHeight="21.0" prefWidth="88.0" text="Periodo 1" textFill="#d6d6d6" />
                                     <HBox>
                                        <children>
                                           <DatePicker fx:id="DatePickerFechaMixta1" prefHeight="31.0" prefWidth="137.0" promptText="Hasta">
@@ -167,25 +169,28 @@
                                           <Insets top="5.0" />
                                        </VBox.margin>
                                     </HBox>
+                                    <Label text="Periodo 2" textFill="#d6d6d6" />
                                     <HBox>
                                        <children>
                                           <DatePicker fx:id="DatePickerFechaMixta2" prefHeight="31.0" prefWidth="138.0" promptText="Hasta" />
                                           <ComboBox fx:id="ComboBoxTipoMixta2" prefHeight="31.0" prefWidth="120.0" promptText="Tipo" />
                                        </children>
                                     </HBox>
+                                    <Label text="Periodo 3" textFill="#d6d6d6" />
                                     <HBox>
                                        <children>
                                           <DatePicker fx:id="DatePickerFechaMixta3" prefHeight="31.0" prefWidth="135.0" promptText="Hasta" />
                                           <ComboBox fx:id="ComboBoxTipoMixta3" prefHeight="31.0" prefWidth="116.0" promptText="Tipo" />
                                        </children>
                                     </HBox>
+                                    <Label text="Periodo 4" textFill="#d6d6d6" />
                                     <HBox>
                                        <children>
                                           <DatePicker fx:id="DatePickerFechaMixta4" prefHeight="31.0" prefWidth="146.0" promptText="Hasta" />
                                           <ComboBox fx:id="ComboBoxTipoMixta4" prefHeight="31.0" prefWidth="128.0" promptText="Tipo" />
                                        </children>
                                     </HBox>
-                                    <Button mnemonicParsing="false" text="Simular">
+                                    <Button mnemonicParsing="false" onMouseClicked="#SimularMixta" text="Simular">
                                        <VBox.margin>
                                           <Insets left="65.0" top="5.0" />
                                        </VBox.margin>
