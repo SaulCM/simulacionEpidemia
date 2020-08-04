@@ -38,6 +38,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -133,6 +134,19 @@ public class InterfazPrincipalController implements Initializable {
     @FXML private CheckBox CheckBoxSinCuarentena;
     @FXML private AnchorPane VistaMapa;
     @FXML private Label tituloSeleccion;
+    @FXML private Label LabelSimulacionBasica;
+    @FXML private Button ButtonSimular;
+    @FXML private VBox VistaSimulacionMixta;
+    
+    @FXML private DatePicker DatePickerFechaMixta1;
+    @FXML private ComboBox<String> ComboBoxTipoMixta1;
+    @FXML private DatePicker DatePickerFechaMixta2;
+    @FXML private ComboBox<String> ComboBoxTipoMixta2;
+    @FXML private DatePicker DatePickerFechaMixta3;
+    @FXML private ComboBox<String> ComboBoxTipoMixta3;
+    @FXML private DatePicker DatePickerFechaMixta4;
+    @FXML private ComboBox<String> ComboBoxTipoMixta4;
+
     
     @FXML private LineChart<?, ?> grafica;
     
@@ -615,7 +629,27 @@ public class InterfazPrincipalController implements Initializable {
         this.grafica.setVisible(true);
         this.Estadisticas.setVisible(true);
         this.buttonReportes.setVisible(false);
+        this.VistaSimulacionMixta.setVisible(false);
+        this.LabelSimulacionBasica.setVisible(true);
+        this.ButtonSimular.setVisible(true);
+        this.CheckBoxCuarentenaR.setVisible(true);
+        this.CheckBoxSinCuarentena.setVisible(true);
         
+    }
+        @FXML
+    void SelectedSimulacionMixta(MouseEvent event) {
+        this.opcion="Simulación Mixta";
+        tituloSeleccion.setText(opcion+" "+region);
+        this.ParametrosSimulacion.setVisible(true);
+        this.VistaMapa.setVisible(false);
+        this.grafica.setVisible(true);
+        this.Estadisticas.setVisible(true);
+        this.buttonReportes.setVisible(false);
+        this.VistaSimulacionMixta.setVisible(true);
+        this.LabelSimulacionBasica.setVisible(false);
+        this.ButtonSimular.setVisible(false);
+        this.CheckBoxCuarentenaR.setVisible(false);
+        this.CheckBoxSinCuarentena.setVisible(false);
     }
             @FXML
     void SelectedMapaDeRiesgo(MouseEvent event) {
@@ -684,8 +718,6 @@ public class InterfazPrincipalController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("java version: "+System.getProperty("java.version"));
-System.out.println("javafx.version: " + System.getProperty("javafx.version"));
         dbConnector=new LoadDriver();
         //graficarDatosNacionalesReales();
         CheckBoxSinCuarentena.setSelected(true);
@@ -698,6 +730,12 @@ System.out.println("javafx.version: " + System.getProperty("javafx.version"));
         columnTotalRecuperados.setCellValueFactory(new PropertyValueFactory<reporteEpidemiologico,Integer>("TotalRecuperados"));
         columnFallecidos.setCellValueFactory(new PropertyValueFactory<reporteEpidemiologico,Integer>("Fallecidos"));
         columnTotalFallecidos.setCellValueFactory(new PropertyValueFactory<reporteEpidemiologico,Integer>("TotalFallecidos"));
+        //Llenar los items de tipo de cuarentena para simulacion mixta
+        ComboBoxTipoMixta1.getItems().addAll(
+            "Cuarentena Rígida",
+            "Cuarentena Dinámica",
+            "Sin Cuarentena"
+        );
         // Llenar datos Mapa de riesgo
         for (int i = 1; i < 10; i++) {
             try {

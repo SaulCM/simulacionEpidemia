@@ -6,6 +6,7 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -20,8 +21,8 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="850.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml" fx:controller="simulaciónepidemiológica.InterfazPrincipalController">
-    <children>
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="simulaciónepidemiológica.InterfazPrincipalController">
+     <children>
         <VBox layoutX="-1.0">
             <children>
                 <Label prefHeight="30.0" prefWidth="1300.0" text="SIMULACIÓN EPIDEMIOLÓGICA" textFill="#868282">
@@ -49,151 +50,233 @@
                 <HBox prefHeight="36.0" prefWidth="1300.0" style="-fx-background-color: #808080;">
                     <children>
                         <Button mnemonicParsing="false" onMouseClicked="#SelectedSimulacion" stylesheets="@../css/style2.css" text="Simulación" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onMouseClicked="#SelectedSimulacionMixta" stylesheets="@../css/style2.css" text="Simulación Mixta" textFill="WHITE" />
                         <Button mnemonicParsing="false" onMouseClicked="#SelectedEstadisticas" stylesheets="@../css/style2.css" text="Estadísticas" textFill="WHITE" />
                         <Button mnemonicParsing="false" onMouseClicked="#SelectedMapaDeRiesgo" stylesheets="@../css/style2.css" text="Mapa de Riesgo" textFill="WHITE" />
                     </children>
                 </HBox>
-                <Label fx:id="tituloSeleccion" prefHeight="21.0" prefWidth="1300.0" text="Simulación Bolivia" textFill="#ae3d3d">
-                    <VBox.margin>
-                        <Insets />
-                    </VBox.margin>
-                    <padding>
-                        <Insets left="580.0" />
-                    </padding>
-                    <font>
-                        <Font name="System Bold" size="17.0" />
-                    </font>
-                </Label>
                 <StackPane>
                     <children>
                         <HBox fx:id="VistaNacional" prefHeight="750.0" prefWidth="1300.0">
                             <children>
-                                <VBox fx:id="ParametrosSimulacion" prefHeight="750.0" prefWidth="319.0">
+                                <VBox fx:id="ParametrosSimulacion" prefHeight="750.0" prefWidth="319.0" style="-fx-background-color: #CD5C5C;">
                                     <children>
-                                        <Label text="Dias" />
+                                        <Label text="Dias" textFill="#d6d6d6" />
                                         <TextField fx:id="DiasSimulacion" text="200" />
-                                        <Label text="Población Inicial" />
+                                        <Label text="Población Inicial" textFill="#d6d6d6" />
                                         <TextField fx:id="PoblacionInicial" promptText="Población Inicial" text="11633371" />
-                                        <CheckBox fx:id="CheckBoxCuarentenaR" mnemonicParsing="false" onMouseClicked="#CheckCuarentenaRigida" text="Cuarentena rígida" />
-                                        <CheckBox fx:id="CheckBoxCuarentenaD" mnemonicParsing="false" onMouseClicked="#CheckCuarentenaDinamica" text="Cuarentena dinámica" />
-                                        <Label text="Circulación Población">
-                                            <VBox.margin>
-                                                <Insets left="20.0" />
-                                            </VBox.margin>
+                              <Label fx:id="LabelSimulacionBasica" prefHeight="21.0" prefWidth="170.0" text="Seleccione tipo:" textFill="#d6d6d6">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                                        <CheckBox fx:id="CheckBoxCuarentenaR" mnemonicParsing="false" onMouseClicked="#CheckCuarentenaRigida" text="Cuarentena rígida" textFill="#d6d6d6">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                                        <CheckBox fx:id="CheckBoxCuarentenaD" mnemonicParsing="false" onMouseClicked="#CheckCuarentenaDinamica" text="Cuarentena dinámica" textFill="#d6d6d6">
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </CheckBox>
+                                        <Label text="Circulación Población" textFill="#d6d6d6">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
                                         </Label>
-                                        <TextField fx:id="CirculacionPoblDias" promptText="Días/semana ">
-                                            <VBox.margin>
-                                                <Insets left="20.0" />
-                                            </VBox.margin>
+                                        <TextField fx:id="CirculacionPoblDias" prefHeight="31.0" prefWidth="142.0" promptText="Días/semana ">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
                                         </TextField>
-                                        <TextField fx:id="CirculacionPoblHoras" promptText="Horas/día">
-                                            <VBox.margin>
-                                                <Insets left="20.0" />
-                                            </VBox.margin>
+                                        <TextField fx:id="CirculacionPoblHoras" prefHeight="31.0" prefWidth="142.0" promptText="Horas/día">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
                                         </TextField>
-                                        <Label text="Transporte público">
-                                            <VBox.margin>
-                                                <Insets left="20.0" />
-                                            </VBox.margin>
+                                        <Label text="Transporte público" textFill="#d6d6d6">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
                                         </Label>
-                                        <CheckBox fx:id="CBTransportePublicoRestriccionPlaca" mnemonicParsing="false" onMouseClicked="#RestriccionPlacaClicked" text="Restricción placa">
-                                            <VBox.margin>
-                                                <Insets left="20.0" />
-                                            </VBox.margin>
+                                        <CheckBox fx:id="CBTransportePublicoRestriccionPlaca" mnemonicParsing="false" onMouseClicked="#RestriccionPlacaClicked" text="Con Restricción placa" textFill="#d6d6d6">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
                                         </CheckBox>
-                                        <CheckBox fx:id="CBTransportePublicoBioseguridad" mnemonicParsing="false" onMouseClicked="#TransporteBioseguridadClicked" text="Bioseguridad">
-                                            <VBox.margin>
-                                                <Insets left="20.0" />
-                                            </VBox.margin>
+                                        <CheckBox fx:id="CBTransportePublicoBioseguridad" mnemonicParsing="false" onMouseClicked="#TransporteBioseguridadClicked" text="Con Bioseguridad" textFill="#d6d6d6">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
                                         </CheckBox>
-                                        <TextField fx:id="CirculacionTransporteDias" promptText="N° días/semana">
-                                            <VBox.margin>
-                                                <Insets left="20.0" />
-                                            </VBox.margin>
+                                        <TextField fx:id="CirculacionTransporteDias" prefHeight="31.0" prefWidth="139.0" promptText="N° días/semana">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
                                         </TextField>
-                                        <Label text="Mercados">
-                                            <VBox.margin>
-                                                <Insets left="20.0" />
-                                            </VBox.margin>
+                                        <Label text="Mercados" textFill="#d6d6d6">
+                                 <VBox.margin>
+                                    <Insets left="20.0" top="5.0" />
+                                 </VBox.margin>
                                         </Label>
-                                        <TextField fx:id="DiasMercado" promptText="N° días/semana">
-                                            <VBox.margin>
-                                                <Insets left="20.0" />
-                                            </VBox.margin>
+                                        <TextField fx:id="DiasMercado" prefHeight="31.0" prefWidth="139.0" promptText="N° días/semana">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
                                         </TextField>
-                                        <CheckBox fx:id="CheckBoxSinCuarentena" mnemonicParsing="false" onMouseClicked="#CheckSinCuarentena" text="Sin cuarentena" />
-                                        <Button mnemonicParsing="false" onMouseClicked="#Simular" prefHeight="31.0" prefWidth="93.0" text="Simular">
-                                            <VBox.margin>
-                                                <Insets left="100.0" top="10.0" />
-                                            </VBox.margin>
+                                        <CheckBox fx:id="CheckBoxSinCuarentena" mnemonicParsing="false" onMouseClicked="#CheckSinCuarentena" text="Sin cuarentena" textFill="#d6d6d6">
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </CheckBox>
+                                        <Button fx:id="ButtonSimular" mnemonicParsing="false" onMouseClicked="#Simular" prefHeight="31.0" prefWidth="76.0" text="Simular">
+                                 <VBox.margin>
+                                    <Insets left="65.0" top="10.0" />
+                                 </VBox.margin>
                                         </Button>
+                              <VBox fx:id="VistaSimulacionMixta">
+                                 <children>
+                                    <Label prefHeight="21.0" prefWidth="173.0" text="Seleccione fecha y tipo" textFill="#d6d6d6">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox>
+                                       <children>
+                                          <DatePicker fx:id="DatePickerFechaMixta1" prefHeight="31.0" prefWidth="137.0" promptText="Hasta">
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </DatePicker>
+                                          <ComboBox fx:id="ComboBoxTipoMixta1" prefHeight="31.0" prefWidth="118.0" promptText="Tipo" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <DatePicker fx:id="DatePickerFechaMixta2" prefHeight="31.0" prefWidth="138.0" promptText="Hasta" />
+                                          <ComboBox fx:id="ComboBoxTipoMixta2" prefHeight="31.0" prefWidth="120.0" promptText="Tipo" />
+                                       </children>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <DatePicker fx:id="DatePickerFechaMixta3" prefHeight="31.0" prefWidth="135.0" promptText="Hasta" />
+                                          <ComboBox fx:id="ComboBoxTipoMixta3" prefHeight="31.0" prefWidth="116.0" promptText="Tipo" />
+                                       </children>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <DatePicker fx:id="DatePickerFechaMixta4" prefHeight="31.0" prefWidth="146.0" promptText="Hasta" />
+                                          <ComboBox fx:id="ComboBoxTipoMixta4" prefHeight="31.0" prefWidth="128.0" promptText="Tipo" />
+                                       </children>
+                                    </HBox>
+                                    <Button mnemonicParsing="false" text="Simular">
+                                       <VBox.margin>
+                                          <Insets left="65.0" top="5.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </VBox>
                                     </children>
                                     <padding>
                                         <Insets left="10.0" right="10.0" top="10.0" />
                                     </padding>
                                 </VBox>
-                                <StackPane>
+                        <VBox prefHeight="772.0" prefWidth="608.0">
+                           <children>
+                                  <Label fx:id="tituloSeleccion" prefHeight="26.0" prefWidth="821.0" text="Simulación Bolivia" textFill="#ae3d3d">
+                                      <VBox.margin>
+                                          <Insets />
+                                      </VBox.margin>
+                                      <padding>
+                                          <Insets left="350.0" />
+                                      </padding>
+                                      <font>
+                                          <Font name="System Bold" size="17.0" />
+                                      </font>
+                                  </Label>
+                                      <StackPane>
+                                          <children>
+                                              <AnchorPane fx:id="VistaMapa" prefHeight="750.0" prefWidth="892.0" visible="false">
+                                                  <children>
+                                                      <ImageView fitHeight="741.0" fitWidth="744.0" layoutX="148.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                                                          <image>
+                                                              <Image url="@../Imagenes/Bolivia.png" />
+                                                          </image>
+                                                      </ImageView>
+                                                      <Label layoutX="109.0" layoutY="40.0" style="-fx-background-color: #36D0DB;" text="PANDO" textFill="WHITE" />
+                                                      <Label layoutX="560.0" layoutY="72.0" style="-fx-background-color: #36D0DB;" text="BENI" textFill="WHITE" />
+                                                      <Label layoutX="731.0" layoutY="180.0" style="-fx-background-color: #36D0DB;" text="SANTA CRUZ" textFill="WHITE" />
+                                                      <Label layoutX="83.0" layoutY="190.0" style="-fx-background-color: #36D0DB;" text="LA PAZ" textFill="WHITE" />
+                                                      <Label layoutX="91.0" layoutY="459.0" style="-fx-background-color: #36D0DB;" text="ORURO" textFill="WHITE" />
+                                                      <Label layoutX="599.0" layoutY="560.0" style="-fx-background-color: #36D0DB;" text="CHUQUISACA" textFill="WHITE" />
+                                                      <Label layoutX="576.0" layoutY="633.0" style="-fx-background-color: #36D0DB;" text="TARIJA" textFill="WHITE" />
+                                                      <Label layoutX="144.0" layoutY="612.0" style="-fx-background-color: #36D0DB;" text="POTOSI" textFill="WHITE" />
+                                                      <Label layoutX="50.0" layoutY="335.0" style="-fx-background-color: #36D0DB;" text="COCHABAMBA" textFill="WHITE" />
+                                                      <Line endX="-131.0" endY="-97.0" layoutX="684.0" layoutY="189.0" startX="-303.0" startY="55.0" />
+                                                      <Line endX="100.0" endY="-106.0" layoutX="622.0" layoutY="303.0" startX="-93.0" startY="151.0" />
+                                                      <Line endX="4.0" endY="5.0" layoutX="262.0" layoutY="125.0" startX="-89.0" startY="-60.0" />
+                                                      <Line endX="29.0" endY="-30.0" layoutX="227.0" layoutY="318.0" startX="-89.0" startY="-110.0" />
+                                                      <Line endX="-215.0" endY="-65.0" layoutX="374.0" layoutY="419.0" startY="8.0" />
+                                                      <Line endX="19.0" endY="7.0" layoutX="258.0" layoutY="501.0" startX="-109.99996948242188" startY="-31.0" />
+                                                      <Line endX="50.0" endY="-19.0" layoutX="296.0" layoutY="595.0" startX="-91.0" startY="24.0" />
+                                                      <Line endX="72.0" endY="-10.0" layoutX="521.0" layoutY="581.0" startX="-83.0" startY="6.0" />
+                                                      <Line endX="40.0" endY="-20.0" layoutX="527.0" layoutY="666.0" startX="-40.0" startY="-20.0" />
+                                                      <Label fx:id="contagiosPando" layoutX="91.0" layoutY="72.0" prefHeight="21.0" prefWidth="93.0" text="1,045 Casos" />
+                                                      <Label fx:id="contagiosLapaz" layoutX="66.0" layoutY="211.0" prefHeight="21.0" prefWidth="101.0" text="7.402 Casos" />
+                                                      <Label fx:id="contagiosOruro" layoutX="69.0" layoutY="489.0" prefHeight="21.0" prefWidth="95.0" text="1.921 Casos" />
+                                                      <Label fx:id="contagiosCochabamba" layoutX="57.0" layoutY="365.0" prefHeight="21.0" prefWidth="101.0" text="5.468 Casos" />
+                                                      <Label fx:id="contagiosPotosi" layoutX="133.0" layoutY="644.0" prefHeight="21.0" prefWidth="78.0" text="969 Casos" />
+                                                      <Label fx:id="contagiosBeni" layoutX="559.0" layoutY="98.0" text="4.904 Casos" />
+                                                      <Label fx:id="contagiosSantacruz" layoutX="732.0" layoutY="211.0" text="26.124 Casos" />
+                                                      <Label fx:id="contagiosChuquisaca" layoutX="599.0" layoutY="587.0" prefHeight="21.0" prefWidth="93.0" text="1.374 Casos" />
+                                                      <Label fx:id="contagiosTarija" layoutX="555.0" layoutY="665.0" prefHeight="21.0" prefWidth="88.0" text="1,660 Casos" />
+                                                  </children>
+                                              </AnchorPane>
+                                              <TableView fx:id="tablaReporteEpidemiologico" prefHeight="200.0" prefWidth="200.0" visible="false">
+                                                  <columns>
+                                                      <TableColumn fx:id="columnFecha" editable="false" prefWidth="128.0" text="Fecha" />
+                                                      <TableColumn fx:id="columnNuevosCasos" editable="false" minWidth="0.0" prefWidth="133.0" text="Nuevos Casos" />
+                                                      <TableColumn fx:id="columnTotalContagiados" editable="false" minWidth="0.0" prefWidth="157.0" text="Total Contagiados" />
+                                                      <TableColumn fx:id="columnRecuperados" editable="false" prefWidth="120.0" text="Recuperados" />
+                                                      <TableColumn fx:id="columnTotalRecuperados" prefWidth="160.0" text="Total Recuperados" />
+                                                      <TableColumn fx:id="columnFallecidos" editable="false" prefWidth="126.0" text="Fallecidos" />
+                                                      <TableColumn fx:id="columnTotalFallecidos" prefWidth="145.0" text="TotalFallecidos" />
+                                                  </columns>
+                                              </TableView>
+                                              <LineChart fx:id="grafica" prefHeight="750.0" prefWidth="477.0">
+                                                  <xAxis>
+                                                      <CategoryAxis side="BOTTOM" />
+                                                  </xAxis>
+                                                  <yAxis>
+                                                      <NumberAxis side="LEFT" />
+                                                  </yAxis>
+                                              </LineChart>
+                                          </children>
+                                      </StackPane>
+                           </children>
+                        </VBox>
+                                <VBox fx:id="Estadisticas" prefHeight="772.0" prefWidth="338.0" style="-fx-background-color: #2F4F4F;">
                                     <children>
-                                        <LineChart fx:id="grafica" prefHeight="750.0" prefWidth="477.0">
-                                            <xAxis>
-                                                <CategoryAxis side="BOTTOM" />
-                                            </xAxis>
-                                            <yAxis>
-                                                <NumberAxis side="LEFT" />
-                                            </yAxis>
-                                        </LineChart>
-                                        <AnchorPane fx:id="VistaMapa" prefHeight="750.0" prefWidth="892.0" visible="false">
-                                            <children>
-                                                <ImageView fitHeight="741.0" fitWidth="744.0" layoutX="148.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../Imagenes/Bolivia.png" />
-                                                    </image>
-                                                </ImageView>
-                                                <Label layoutX="109.0" layoutY="40.0" style="-fx-background-color: #36D0DB;" text="PANDO" textFill="WHITE" />
-                                                <Label layoutX="560.0" layoutY="72.0" style="-fx-background-color: #36D0DB;" text="BENI" textFill="WHITE" />
-                                                <Label layoutX="731.0" layoutY="180.0" style="-fx-background-color: #36D0DB;" text="SANTA CRUZ" textFill="WHITE" />
-                                                <Label layoutX="83.0" layoutY="190.0" style="-fx-background-color: #36D0DB;" text="LA PAZ" textFill="WHITE" />
-                                                <Label layoutX="91.0" layoutY="459.0" style="-fx-background-color: #36D0DB;" text="ORURO" textFill="WHITE" />
-                                                <Label layoutX="599.0" layoutY="560.0" style="-fx-background-color: #36D0DB;" text="CHUQUISACA" textFill="WHITE" />
-                                                <Label layoutX="576.0" layoutY="633.0" style="-fx-background-color: #36D0DB;" text="TARIJA" textFill="WHITE" />
-                                                <Label layoutX="144.0" layoutY="612.0" style="-fx-background-color: #36D0DB;" text="POTOSI" textFill="WHITE" />
-                                                <Label layoutX="50.0" layoutY="335.0" style="-fx-background-color: #36D0DB;" text="COCHABAMBA" textFill="WHITE" />
-                                                <Line endX="-131.0" endY="-97.0" layoutX="684.0" layoutY="189.0" startX="-303.0" startY="55.0" />
-                                                <Line endX="100.0" endY="-106.0" layoutX="622.0" layoutY="303.0" startX="-93.0" startY="151.0" />
-                                                <Line endX="4.0" endY="5.0" layoutX="262.0" layoutY="125.0" startX="-89.0" startY="-60.0" />
-                                                <Line endX="29.0" endY="-30.0" layoutX="227.0" layoutY="318.0" startX="-89.0" startY="-110.0" />
-                                                <Line endX="-215.0" endY="-65.0" layoutX="374.0" layoutY="419.0" startY="8.0" />
-                                                <Line endX="19.0" endY="7.0" layoutX="258.0" layoutY="501.0" startX="-109.99996948242188" startY="-31.0" />
-                                                <Line endX="50.0" endY="-19.0" layoutX="296.0" layoutY="595.0" startX="-91.0" startY="24.0" />
-                                                <Line endX="72.0" endY="-10.0" layoutX="521.0" layoutY="581.0" startX="-83.0" startY="6.0" />
-                                                <Line endX="40.0" endY="-20.0" layoutX="527.0" layoutY="666.0" startX="-40.0" startY="-20.0" />
-                                                <Label fx:id="contagiosPando" layoutX="91.0" layoutY="72.0" prefHeight="21.0" prefWidth="93.0" text="1,045 Casos" />
-                                                <Label fx:id="contagiosLapaz" layoutX="66.0" layoutY="211.0" prefHeight="21.0" prefWidth="101.0" text="7.402 Casos" />
-                                                <Label fx:id="contagiosOruro" layoutX="69.0" layoutY="489.0" prefHeight="21.0" prefWidth="95.0" text="1.921 Casos" />
-                                                <Label fx:id="contagiosCochabamba" layoutX="57.0" layoutY="365.0" prefHeight="21.0" prefWidth="101.0" text="5.468 Casos" />
-                                                <Label fx:id="contagiosPotosi" layoutX="133.0" layoutY="644.0" prefHeight="21.0" prefWidth="78.0" text="969 Casos" />
-                                                <Label fx:id="contagiosBeni" layoutX="559.0" layoutY="98.0" text="4.904 Casos" />
-                                                <Label fx:id="contagiosSantacruz" layoutX="732.0" layoutY="211.0" text="26.124 Casos" />
-                                                <Label fx:id="contagiosChuquisaca" layoutX="599.0" layoutY="587.0" prefHeight="21.0" prefWidth="93.0" text="1.374 Casos" />
-                                                <Label fx:id="contagiosTarija" layoutX="555.0" layoutY="665.0" prefHeight="21.0" prefWidth="88.0" text="1,660 Casos" />
-                                            </children>
-                                        </AnchorPane>
-                                        <TableView fx:id="tablaReporteEpidemiologico" prefHeight="200.0" prefWidth="200.0" visible="false">
-                                            <columns>
-                                                <TableColumn fx:id="columnFecha" editable="false" prefWidth="128.0" text="Fecha" />
-                                                <TableColumn fx:id="columnNuevosCasos" editable="false" minWidth="0.0" prefWidth="133.0" text="Nuevos Casos" />
-                                                <TableColumn fx:id="columnTotalContagiados" editable="false" minWidth="0.0" prefWidth="157.0" text="Total Contagiados" />
-                                                <TableColumn fx:id="columnRecuperados" editable="false" prefWidth="120.0" text="Recuperados" />
-                                                <TableColumn fx:id="columnTotalRecuperados" prefWidth="160.0" text="Total Recuperados" />
-                                                <TableColumn fx:id="columnFallecidos" editable="false" prefWidth="126.0" text="Fallecidos" />
-                                                <TableColumn fx:id="columnTotalFallecidos" prefWidth="145.0" text="TotalFallecidos" />
-                                            </columns>
-                                        </TableView>
-                                    </children>
-                                </StackPane>
-                                <VBox fx:id="Estadisticas" prefHeight="750.0" prefWidth="420.0">
-                                    <children>
-                                        <Label prefHeight="21.0" prefWidth="295.0" text="Estadísticas al último día" textOverrun="CENTER_ELLIPSIS" underline="true">
+                                        <Label prefHeight="21.0" prefWidth="295.0" text="Resultados" textFill="#d6d6d6" textOverrun="CENTER_ELLIPSIS" underline="true">
                                             <font>
                                                 <Font size="16.0" />
                                             </font>
@@ -201,7 +284,7 @@
                                                 <Insets top="10.0" />
                                             </padding>
                                             <VBox.margin>
-                                                <Insets left="60.0" />
+                                                <Insets left="80.0" />
                                             </VBox.margin>
                                         </Label>
                                         <Label prefHeight="21.0" prefWidth="294.0">
@@ -209,7 +292,7 @@
                                                 <Insets left="10.0" />
                                             </padding>
                                         </Label>
-                                        <Label text="Nuevos Casos">
+                                        <Label text="Nuevos Casos" textFill="#d6d6d6">
                                             <VBox.margin>
                                                 <Insets left="10.0" />
                                             </VBox.margin>
@@ -219,7 +302,7 @@
                                                 <Insets left="10.0" right="10.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <Label prefHeight="21.0" prefWidth="101.0" text="Contagiados">
+                                        <Label prefHeight="21.0" prefWidth="101.0" text="Contagiados" textFill="#d6d6d6">
                                             <VBox.margin>
                                                 <Insets left="10.0" />
                                             </VBox.margin>
@@ -229,7 +312,7 @@
                                                 <Insets left="10.0" right="10.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <Label text="Recuperados">
+                                        <Label text="Recuperados" textFill="#d6d6d6">
                                             <VBox.margin>
                                                 <Insets left="10.0" />
                                             </VBox.margin>
@@ -239,7 +322,7 @@
                                                 <Insets left="10.0" right="10.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <Label text="Fallecidos">
+                                        <Label text="Fallecidos" textFill="#d6d6d6">
                                             <VBox.margin>
                                                 <Insets left="10.0" />
                                             </VBox.margin>
@@ -250,7 +333,7 @@
                                             </VBox.margin>
                                         </TextField>
                                         <Label prefHeight="21.0" prefWidth="293.0" />
-                                        <Label prefHeight="21.0" prefWidth="311.0" text="Mayor número de contagios en un día">
+                                        <Label prefHeight="21.0" prefWidth="311.0" text="Mayor número de contagios " textFill="#d6d6d6">
                                             <VBox.margin>
                                                 <Insets left="10.0" />
                                             </VBox.margin>
@@ -260,7 +343,7 @@
                                                 <Insets left="10.0" right="10.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <Label prefHeight="23.0" prefWidth="308.0" text="Mayor cantidad de recuperaciones en un día">
+                                        <Label prefHeight="23.0" prefWidth="308.0" text="Mayor recuperaciones en un día" textFill="#d6d6d6">
                                             <VBox.margin>
                                                 <Insets left="10.0" />
                                             </VBox.margin>
@@ -270,7 +353,7 @@
                                                 <Insets left="10.0" right="10.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <Label prefHeight="18.0" prefWidth="324.0" text="Mayor cantidad de fallecidos en un día">
+                                        <Label prefHeight="18.0" prefWidth="324.0" text="Mayor num de fallecidos en un día" textFill="#d6d6d6">
                                             <VBox.margin>
                                                 <Insets left="10.0" />
                                             </VBox.margin>
@@ -280,7 +363,7 @@
                                                 <Insets left="10.0" right="10.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <Label prefHeight="21.0" prefWidth="290.0" text="Tasa de letalidad">
+                                        <Label prefHeight="21.0" prefWidth="290.0" text="Tasa de letalidad" textFill="#d6d6d6">
                                             <padding>
                                                 <Insets left="90.0" />
                                             </padding>
@@ -290,7 +373,7 @@
                                                 <Insets left="100.0" right="100.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <CheckBox fx:id="checkBoxPeriodo" mnemonicParsing="false" onMouseClicked="#checkBoxPeriodoClicked" text="Seleccionar un periodo">
+                                        <CheckBox fx:id="checkBoxPeriodo" mnemonicParsing="false" onMouseClicked="#checkBoxPeriodoClicked" text="Ver un periodo específico" textFill="#d6d6d6">
                                             <VBox.margin>
                                                 <Insets left="10.0" top="30.0" />
                                             </VBox.margin>

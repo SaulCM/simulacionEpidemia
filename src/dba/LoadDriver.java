@@ -11,7 +11,7 @@ public class LoadDriver {
          Connection cn = null;
         try {
             Class.forName("org.sqlite.JDBC");
-            cn=DriverManager.getConnection("jdbc:sqlite:src/dba/epidemiologia.db");
+            cn=DriverManager.getConnection("jdbc:sqlite::resource:dba/epidemiologia.db");
         }catch(Exception e1){
             System.out.println("Error: " + e1.getMessage());
         }
