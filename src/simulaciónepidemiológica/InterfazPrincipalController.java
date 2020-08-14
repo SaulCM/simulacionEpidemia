@@ -558,18 +558,15 @@ public class InterfazPrincipalController implements Initializable {
                         System.out.println(e.getMessage());
                                 
                     }   */
-        /*DecimalFormat df = new DecimalFormat("#");
-        System.out.print("   TasaContagio:"+df.format(tasaDiariaInteraccion));
-        System.out.print("   Conagios:"+df.format(contagios));
-        System.out.print("   Recuperaciones:"+df.format(recuperaciones));
-        System.out.print("   Fallecimientos:"+df.format(fallecimientos));
-        System.out.print("   Susceptibles"+df.format(susceptibles));
-        System.out.print("   Fallecidos:"+df.format(fallecidos));
-        System.out.print("   Recuperados:"+df.format(recuperados));
-        System.out.print("   Infectados:"+df.format(infectados));
-        System.out.println();*/
         
-        }   
+        }
+                     //Llenar tabla de reportes
+            // reporteEpidemiologico r=new reporteEpidemiologico(rs.getString("fecha"),Integer.parseInt(rs.getString("nuevos_casos")),
+             //Integer.parseInt(rs.getString("totalContagiados")),Integer.parseInt(rs.getString("recuperados")),
+             //Integer.parseInt(rs.getString("totalRecuperados")),
+             //Integer.parseInt(rs.getString("fallecidos")),
+             //Integer.parseInt(rs.getString("totalFallecidos")));
+            //tablaReporteEpidemiologico.getItems().add(r);
         System.out.println(tasaDiariaInteraccion);
         mostrarResultados();
         graficarMixta();
