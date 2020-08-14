@@ -49,8 +49,8 @@
                 </HBox>
                 <HBox prefHeight="36.0" prefWidth="1300.0" style="-fx-background-color: #808080;">
                     <children>
-                        <Button mnemonicParsing="false" onMouseClicked="#SelectedSimulacion" stylesheets="@../css/style2.css" text="Simulación" textFill="WHITE" />
                   <Button mnemonicParsing="false" onMouseClicked="#SelectedSimulacionMixta" stylesheets="@../css/style2.css" text="Simulación Mixta" textFill="WHITE" />
+                        <Button mnemonicParsing="false" onMouseClicked="#SelectedSimulacion" stylesheets="@../css/style2.css" text="Simulación" textFill="WHITE" />
                         <Button mnemonicParsing="false" onMouseClicked="#SelectedEstadisticas" stylesheets="@../css/style2.css" text="Estadísticas" textFill="WHITE" />
                         <Button mnemonicParsing="false" onMouseClicked="#SelectedMapaDeRiesgo" stylesheets="@../css/style2.css" text="Mapa de Riesgo" textFill="WHITE" />
                     </children>
@@ -61,8 +61,8 @@
                             <children>
                                 <VBox fx:id="ParametrosSimulacion" prefHeight="750.0" prefWidth="319.0" style="-fx-background-color: #CD5C5C;">
                                     <children>
-                                        <Label text="Dias" textFill="#d6d6d6" />
-                                        <TextField fx:id="DiasSimulacion" text="200" />
+                                        <Label fx:id="labelFechaHastaLaQueSimular" text="Fecha  hasta la que simular" textFill="#d6d6d6" />
+                              <DatePicker fx:id="DiasSimulacion" />
                               <Label text="*Inicio 10-03-2020" textFill="#d6d6d6" />
                                         <Label text="Población Inicial" textFill="#d6d6d6" />
                                         <TextField fx:id="PoblacionInicial" promptText="Población Inicial" text="11633371" />
@@ -82,14 +82,23 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </CheckBox>
-                                        <CheckBox fx:id="CheckBoxCuarentenaD" mnemonicParsing="false" onMouseClicked="#CheckCuarentenaDinamica" text="Cuarentena dinámica" textFill="#d6d6d6">
+                              <StackPane>
                                  <VBox.margin>
-                                    <Insets top="20.0" />
+                                    <Insets top="15.0" />
                                  </VBox.margin>
-                                 <font>
-                                    <Font name="System Bold" size="15.0" />
-                                 </font>
-                              </CheckBox>
+                                 <children>
+                                              <CheckBox fx:id="CheckBoxCuarentenaD" mnemonicParsing="false" onMouseClicked="#CheckCuarentenaDinamica" text="Cuarentena dinámica" textFill="#d6d6d6">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </CheckBox>
+                                    <Label fx:id="LabelDefinirCuarentenaDinamica" text="Definir C. Dinámica" textFill="#d6d6d6" visible="false">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </StackPane>
                                         <Label text="Circulación Población" textFill="#d6d6d6">
                                  <VBox.margin>
                                     <Insets left="20.0" />
@@ -137,7 +146,7 @@
                                         </TextField>
                                         <CheckBox fx:id="CheckBoxSinCuarentena" mnemonicParsing="false" onMouseClicked="#CheckSinCuarentena" text="Sin cuarentena" textFill="#d6d6d6">
                                  <VBox.margin>
-                                    <Insets top="20.0" />
+                                    <Insets top="15.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="System Bold" size="15.0" />
@@ -158,7 +167,7 @@
                                     <Label prefHeight="21.0" prefWidth="88.0" text="Periodo 1" textFill="#d6d6d6" />
                                     <HBox>
                                        <children>
-                                          <DatePicker fx:id="DatePickerFechaMixta1" prefHeight="31.0" prefWidth="137.0" promptText="Hasta">
+                                          <DatePicker fx:id="DatePickerFechaMixta1" onAction="#SimularMixta" prefHeight="31.0" prefWidth="137.0" promptText="Hasta">
                                              <HBox.margin>
                                                 <Insets />
                                              </HBox.margin>
@@ -166,35 +175,39 @@
                                           <ComboBox fx:id="ComboBoxTipoMixta1" prefHeight="31.0" prefWidth="118.0" promptText="Tipo" />
                                        </children>
                                        <VBox.margin>
-                                          <Insets top="5.0" />
+                                          <Insets />
                                        </VBox.margin>
                                     </HBox>
                                     <Label text="Periodo 2" textFill="#d6d6d6" />
                                     <HBox>
                                        <children>
-                                          <DatePicker fx:id="DatePickerFechaMixta2" prefHeight="31.0" prefWidth="138.0" promptText="Hasta" />
+                                          <DatePicker fx:id="DatePickerFechaMixta2" disable="true" prefHeight="31.0" prefWidth="138.0" promptText="Hasta" />
                                           <ComboBox fx:id="ComboBoxTipoMixta2" prefHeight="31.0" prefWidth="120.0" promptText="Tipo" />
                                        </children>
                                     </HBox>
                                     <Label text="Periodo 3" textFill="#d6d6d6" />
                                     <HBox>
                                        <children>
-                                          <DatePicker fx:id="DatePickerFechaMixta3" prefHeight="31.0" prefWidth="135.0" promptText="Hasta" />
+                                          <DatePicker fx:id="DatePickerFechaMixta3" disable="true" prefHeight="31.0" prefWidth="135.0" promptText="Hasta" />
                                           <ComboBox fx:id="ComboBoxTipoMixta3" prefHeight="31.0" prefWidth="116.0" promptText="Tipo" />
                                        </children>
                                     </HBox>
                                     <Label text="Periodo 4" textFill="#d6d6d6" />
                                     <HBox>
                                        <children>
-                                          <DatePicker fx:id="DatePickerFechaMixta4" prefHeight="31.0" prefWidth="146.0" promptText="Hasta" />
+                                          <DatePicker fx:id="DatePickerFechaMixta4" disable="true" prefHeight="31.0" prefWidth="146.0" promptText="Hasta" />
                                           <ComboBox fx:id="ComboBoxTipoMixta4" prefHeight="31.0" prefWidth="128.0" promptText="Tipo" />
                                        </children>
                                     </HBox>
-                                    <Button mnemonicParsing="false" onMouseClicked="#SimularMixta" text="Simular">
+                                    <HBox prefHeight="31.0" prefWidth="156.0">
                                        <VBox.margin>
-                                          <Insets left="65.0" top="5.0" />
+                                          <Insets top="5.0" />
                                        </VBox.margin>
-                                    </Button>
+                                       <children>
+                                          <Button mnemonicParsing="false" onMouseClicked="#SimularMixta" prefHeight="31.0" prefWidth="86.0" text="Simular" />
+                                          <Button mnemonicParsing="false" onMouseClicked="#reiniciarPeriodos" prefHeight="31.0" prefWidth="152.0" text="Reiniciar periodos" />
+                                       </children>
+                                    </HBox>
                                  </children>
                                  <VBox.margin>
                                     <Insets top="10.0" />
@@ -267,7 +280,7 @@
                                                       <TableColumn fx:id="columnTotalFallecidos" prefWidth="145.0" text="TotalFallecidos" />
                                                   </columns>
                                               </TableView>
-                                              <LineChart fx:id="grafica" prefHeight="750.0" prefWidth="477.0">
+                                              <LineChart fx:id="grafica" prefHeight="800.0" prefWidth="820.0">
                                                   <xAxis>
                                                       <CategoryAxis side="BOTTOM" />
                                                   </xAxis>
@@ -281,9 +294,9 @@
                         </VBox>
                                 <VBox fx:id="Estadisticas" prefHeight="772.0" prefWidth="338.0" style="-fx-background-color: #2F4F4F;">
                                     <children>
-                                        <Label prefHeight="21.0" prefWidth="295.0" text="Resultados" textFill="#d6d6d6" textOverrun="CENTER_ELLIPSIS" underline="true">
+                                        <Label prefHeight="21.0" prefWidth="295.0" text="RESULTADOS" textFill="#d6d6d6" textOverrun="CENTER_ELLIPSIS">
                                             <font>
-                                                <Font size="16.0" />
+                                                <Font name="System Bold" size="16.0" />
                                             </font>
                                             <padding>
                                                 <Insets top="10.0" />
@@ -292,17 +305,12 @@
                                                 <Insets left="80.0" />
                                             </VBox.margin>
                                         </Label>
-                                        <Label prefHeight="21.0" prefWidth="294.0">
-                                            <padding>
-                                                <Insets left="10.0" />
-                                            </padding>
-                                        </Label>
                                         <Label text="Nuevos Casos" textFill="#d6d6d6">
                                             <VBox.margin>
                                                 <Insets left="10.0" />
                                             </VBox.margin>
                                         </Label>
-                                        <TextField fx:id="estaNuevosCasos">
+                                        <TextField fx:id="estaNuevosCasos" editable="false">
                                             <VBox.margin>
                                                 <Insets left="10.0" right="10.0" />
                                             </VBox.margin>
@@ -312,7 +320,7 @@
                                                 <Insets left="10.0" />
                                             </VBox.margin>
                                         </Label>
-                                        <TextField fx:id="estaContagiados">
+                                        <TextField fx:id="estaContagiados" editable="false">
                                             <VBox.margin>
                                                 <Insets left="10.0" right="10.0" />
                                             </VBox.margin>
@@ -322,7 +330,7 @@
                                                 <Insets left="10.0" />
                                             </VBox.margin>
                                         </Label>
-                                        <TextField fx:id="estaRecuperados">
+                                        <TextField fx:id="estaRecuperados" editable="false">
                                             <VBox.margin>
                                                 <Insets left="10.0" right="10.0" />
                                             </VBox.margin>
@@ -332,7 +340,7 @@
                                                 <Insets left="10.0" />
                                             </VBox.margin>
                                         </Label>
-                                        <TextField fx:id="estaFallecidos">
+                                        <TextField fx:id="estaFallecidos" editable="false">
                                             <VBox.margin>
                                                 <Insets left="10.0" right="10.0" />
                                             </VBox.margin>
@@ -373,37 +381,65 @@
                                                 <Insets left="90.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="resTasaLetalidad">
+                                        <TextField fx:id="resTasaLetalidad" editable="false">
                                             <VBox.margin>
                                                 <Insets left="100.0" right="100.0" />
                                             </VBox.margin>
                                         </TextField>
+                              <Label prefHeight="21.0" prefWidth="254.0" text="OPCIONES DE VISUALIZACIÓN" textFill="#d6d6d6">
+                                 <VBox.margin>
+                                    <Insets left="10.0" top="10.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label prefHeight="21.0" prefWidth="288.0" text="Comparar con datos reales" textFill="#d6d6d6">
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <CheckBox fx:id="checkBoxCompararInfectadosReal" mnemonicParsing="false" onMouseClicked="#selectedGraficaCompararInfectadosReal" text="Comparar con Infectados reales" textFill="#d6d6d6">
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <CheckBox fx:id="checkBoxCompararRecuperadosReal" mnemonicParsing="false" onMouseClicked="#selectedGraficaCompararRecuperadosReal" text="Comparar con recuperados real" textFill="#d6d6d6">
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <CheckBox fx:id="checkBoxCompararFallecidosReal" mnemonicParsing="false" onMouseClicked="#selectedGraficaCompararFallecidosReal" text="Comparar con fallecidos real" textFill="#d6d6d6">
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <CheckBox fx:id="checkBoxCompararCasosDiariosReal" mnemonicParsing="false" onMouseClicked="#selectedGraficaCompararCasosDiariosReal" text="Comparar con casos diarios real" textFill="#d6d6d6">
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin>
+                              </CheckBox>
                                         <CheckBox fx:id="checkBoxPeriodo" mnemonicParsing="false" onMouseClicked="#checkBoxPeriodoClicked" text="Ver un periodo específico" textFill="#d6d6d6">
                                             <VBox.margin>
-                                                <Insets left="10.0" top="30.0" />
+                                                <Insets left="10.0" top="15.0" />
                                             </VBox.margin>
                                         </CheckBox>
-                                        <DatePicker fx:id="datepickerFechaInicial" promptText="Desde">
+                                        <DatePicker fx:id="datepickerFechaInicial" prefHeight="31.0" prefWidth="172.0" promptText="Desde" visible="false">
                                             <VBox.margin>
-                                                <Insets left="10.0" top="10.0" />
+                                                <Insets left="30.0" top="10.0" />
                                             </VBox.margin>
                                         </DatePicker>
-                                        <DatePicker fx:id="datepickerFechaFinal" promptText="Hasta">
+                                        <DatePicker fx:id="datepickerFechaFinal" prefHeight="31.0" prefWidth="173.0" promptText="Hasta" visible="false">
                                             <VBox.margin>
-                                                <Insets left="10.0" top="10.0" />
+                                                <Insets left="30.0" top="10.0" />
                                             </VBox.margin>
                                         </DatePicker>
-                                        <Label prefHeight="524.0" prefWidth="402.0">
-                                            <VBox.margin>
-                                                <Insets left="10.0" />
-                                            </VBox.margin>
-                                        </Label>
                                         <Button fx:id="buttonReportes" mnemonicParsing="false" onMouseClicked="#generarReporte" prefHeight="31.0" prefWidth="120.0" text="Reporte" visible="false">
                                             <VBox.margin>
                                                 <Insets bottom="10.0" left="10.0" />
                                             </VBox.margin>
                                         </Button>
-                                        <Button fx:id="switchGraficoTabla" mnemonicParsing="false" onMouseClicked="#selectedGraficoTabla" text="Tabla de Datos">
+                                        <Button fx:id="switchGraficoTabla" mnemonicParsing="false" onMouseClicked="#selectedGraficoTabla" text="Cambiar a Tabla de Datos">
                                             <VBox.margin>
                                                 <Insets bottom="10.0" left="10.0" />
                                             </VBox.margin>

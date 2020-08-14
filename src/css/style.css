@@ -20,3 +20,4 @@
 .comboBox:pressed{
     -fx-background-color: #A8EB12;
 }
+.slider .axis { -fx-tick-label-fill: white; }
